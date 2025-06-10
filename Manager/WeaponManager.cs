@@ -96,6 +96,7 @@ public class WeaponManager : MonoBehaviour
             InstantiateWeapon(weaponID);
 
             ObjectUIManager.instance.AddWeaponIcon(weaponDatas[weaponID]);
+            PoolObjectManager.instance.currentNumberWeapon++;
 
         }else if (weaponDatas[weaponID].currentLevel > 0 && weaponDatas[weaponID].currentLevel < weaponDatas[weaponID].maxLevel) 
         {

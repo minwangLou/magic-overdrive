@@ -13,10 +13,10 @@ public class PoolObjectManager : MonoBehaviour
     public List<PoolObject> objectSelectList = new List<PoolObject>(); //object select to mostrate in levelUP panel and ready to upgrate
 
     public int maxNumberWeapon;
-    private int currentNumberWeapon;
+    [HideInInspector]public int currentNumberWeapon;
 
     public int maxNumberBonus;
-    private int currentNumberBonus;
+    [HideInInspector]public int currentNumberBonus;
 
     //Eliminar todo el objeto de tipo bonus o weapon de pool unassign por llegar número de objeto máximo.
     private bool bonusDelete = false;
@@ -55,13 +55,14 @@ public class PoolObjectManager : MonoBehaviour
             if (bonusDatas[i].unlock == 1 && bonusDatas[i].inGameCurrentLevel < bonusDatas[i].inGameMaxLevel)
             {
 
-
                 if (bonusDatas[i].inGameCurrentLevel == 0 && currentNumberBonus < maxNumberBonus)
                 {
+
+
                     poolObject = new PoolObject(unassignObjectPool.Count, bonusDatas[i].bonusName, bonusDatas[i].id, bonusDatas[i].rarityWeight, bonusDatas[i]);
 
                     unassignObjectPool.Add(poolObject);
-                    currentNumberBonus++;
+                    
                 }
                 else if (bonusDatas[i].inGameCurrentLevel > 0)
                 {
@@ -85,13 +86,14 @@ public class PoolObjectManager : MonoBehaviour
         {
             if (weaponDatas[i].unloke == 1 && weaponDatas[i].currentLevel < weaponDatas[i].maxLevel)
             {
+                
 
                 if (weaponDatas[i].currentLevel == 0 && currentNumberWeapon < maxNumberWeapon)
                 {
                     poolObject = new PoolObject(unassignObjectPool.Count, weaponDatas[i].name, weaponDatas[i].id, weaponDatas[i].rarityWeight, weaponDatas[i]);
 
                     unassignObjectPool.Add(poolObject);
-                    currentNumberWeapon++;
+                    
                 }
                 else if (weaponDatas[i].currentLevel > 0)
                 {
@@ -112,6 +114,9 @@ public class PoolObjectManager : MonoBehaviour
         int randomValue = Random.Range(0, 2);
         // 0 = Extraer el objeto de assignPool, 1 = Extraer el objeto de unassignPool
         PoolObject objectReturn = null;
+
+        Debug.Log("assign pool number: " + assignObjectPool.Count);
+        Debug.Log("unassign pool number: " + unassignObjectPool.Count);
 
         if (assignObjectPool.Count == 0 && unassignObjectPool.Count == 0)
             return null;
