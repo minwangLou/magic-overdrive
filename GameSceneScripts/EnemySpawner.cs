@@ -186,9 +186,7 @@ public class EnemySpawner : MonoBehaviour
 
     //Metodo principal para eliminar los enemigos que est¨¢ lejos del jugador
     private void DespawnEnemyFar()
-    {
-        Debug.Log("list: " + enemyList.Count);
-        
+    {   
 
         for (int i = enemyToCheck; i < enemyToCheck + enemyCheckPerFrame; i++)
         {
@@ -196,7 +194,6 @@ public class EnemySpawner : MonoBehaviour
             {
                 if (enemyList[i] != null)
                 {
-                    Debug.Log("cotent null: " + enemyList[i] == null);
                     if (CheckEnemyFarToPlayer(enemyList[i]))
                     {
                         Destroy(enemyList[i].gameObject);

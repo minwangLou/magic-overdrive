@@ -68,6 +68,8 @@ public class LevelUpSelectionButton : MonoBehaviour
             UIController.instance.levelUpPanel.SetActive(false);
             Time.timeScale = 1f;
 
+            ExperienceLevelController.instance.upgrateObjectSelect = true;
+
         }
 
     }

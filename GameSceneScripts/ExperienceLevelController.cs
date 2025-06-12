@@ -31,6 +31,8 @@ public class ExperienceLevelController : MonoBehaviour
 
     [HideInInspector]public float expIncrease; //Value of bonus growth
 
+    public bool upgrateObjectSelect;
+
 
 
     // Start is called before the first frame update
@@ -70,9 +72,9 @@ public class ExperienceLevelController : MonoBehaviour
     {
         currentExperience += Mathf.RoundToInt(amountToGet * expIncrease);
 
-        LevelUp();
+        StartCoroutine(LevelUp());
 
-        UIController.instance.UpdateExperience(currentExperience, CalculateExpToLevelUp(), currentLevel);
+        
 
     }
 
@@ -83,21 +85,38 @@ public class ExperienceLevelController : MonoBehaviour
 
     }
 
-    private void LevelUp()
+
+
+    public IEnumerator LevelUp()
     {
         int expNeedToLevelUp = CalculateExpToLevelUp();
-            
-        //El jugador ha recogido experiencia sufienciete para subir el nuvel
+
         while (currentExperience >= expNeedToLevelUp)
         {
-            //level up
             currentExperience -= expNeedToLevelUp;
             currentLevel++;
-            ShowLevelUpPanel();
+
+            UIController.instance.UpdateExperience(currentExperience, CalculateExpToLevelUp(), currentLevel);
+
+            // 弹出面板并等待玩家选择
+            yield return ShowLevelUpPanelCoroutine();
+
             expNeedToLevelUp = CalculateExpToLevelUp();
         }
+    }
 
-        
+    private IEnumerator ShowLevelUpPanelCoroutine()
+    {
+        UIController.instance.levelUpPanel.SetActive(true);
+        Time.timeScale = 0f;
+
+        ShowLevelUpObject();
+
+        upgrateObjectSelect = false; // 重置选择状态
+
+        yield return new WaitUntil(() => upgrateObjectSelect);
+
+        Time.timeScale = 1f; // 恢复时间
     }
 
 
@@ -115,19 +134,6 @@ public class ExperienceLevelController : MonoBehaviour
         }
         return expNeedToLevelUp;
     }
-    private void ShowLevelUpPanel() {
-
-        //Activar el panel de upgrate
-        UIController.instance.levelUpPanel.SetActive(true);
-
-        //Parar el tiempo de partido
-        Time.timeScale = 0f;
-
-        //ShowUpgradeWeapon();
-
-        ShowLevelUpObject();
-    }
-
 
 
     public void ShowLevelUpObject()

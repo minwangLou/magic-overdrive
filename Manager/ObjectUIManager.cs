@@ -20,6 +20,13 @@ public class ObjectUIManager : MonoBehaviour
     private int currentWeaponIconNumber;
     private int currentBonusIconNumber;
 
+    private PausePanelController pausePanel;
+
+    private void Start()
+    {
+        pausePanel = PausePanelController.instance;
+    }
+
     private void HideAllIcons()
     {
         foreach(ObjectIconInfo info in weaponIconList)
@@ -62,8 +69,12 @@ public class ObjectUIManager : MonoBehaviour
             bonusIconList[currentBonusIconNumber].objectID = bonus.id;
 
             currentBonusIconNumber++;
+
+            PausePanelController.instance.AddBonusToList(bonus.id);
         }
     }
+
+    
 }
 
 [System.Serializable]

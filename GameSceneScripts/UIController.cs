@@ -48,10 +48,17 @@ public class UIController : MonoBehaviour
     {
         levelUpPanel.SetActive(false);
         Time.timeScale = 1f;
+
+        ExperienceLevelController.instance.upgrateObjectSelect = true;
     }
 
     public void UpdateCoinText()
     {
         coinText.text = CoinController.instance.currentCoins.ToString();
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
     }
 }

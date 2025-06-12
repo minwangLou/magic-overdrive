@@ -115,8 +115,6 @@ public class PoolObjectManager : MonoBehaviour
         // 0 = Extraer el objeto de assignPool, 1 = Extraer el objeto de unassignPool
         PoolObject objectReturn = null;
 
-        Debug.Log("assign pool number: " + assignObjectPool.Count);
-        Debug.Log("unassign pool number: " + unassignObjectPool.Count);
 
         if (assignObjectPool.Count == 0 && unassignObjectPool.Count == 0)
             return null;

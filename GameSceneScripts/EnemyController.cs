@@ -26,8 +26,8 @@ public class EnemyController : MonoBehaviour
     private int expDrop;
 
     //coin
-    private int coinDrop = 1;
-    private float coinDropRate = 0.2f;
+    private int coinDrop;
+    private float coinDropRate;
 
     public bool enemyBoss = false;
 
@@ -63,7 +63,7 @@ public class EnemyController : MonoBehaviour
 
         expDrop = enemyData.experienceDrop;
         coinDrop = enemyData.coinDrop;
-        coinDropRate = enemyData.coinDrop;
+        coinDropRate = enemyData.coinDropRate;
     }
 
     //Cuando se choca con el jugar el jugador, hacerle daño
@@ -146,7 +146,8 @@ public class EnemyController : MonoBehaviour
 
     private void DropCoin()
     {
-        if (Random.value <= coinDropRate)
+
+        if (Random.value < coinDropRate)
         {
             CoinController.instance.DropCoin(transform.position, coinDrop);
         }

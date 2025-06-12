@@ -82,9 +82,11 @@ public class AttributeManager : MonoBehaviour
 
         foreach (RoleBonus roleBonus in roleBonusDatas)
         {
+            /*
             Debug.Log(roleBonus.name);
             Debug.Log(roleBonus.idBonus);
             Debug.Log(bonusDatas[1] == null);
+            */
 
             bonusDatas[roleBonus.idBonus].roleBonusValue += roleBonus.value;
         }
