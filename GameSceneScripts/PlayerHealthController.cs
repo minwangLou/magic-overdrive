@@ -57,6 +57,8 @@ public class PlayerHealthController : MonoBehaviour
     {
         // 你可以在这里添加玩家死亡时的额外处理逻辑
         gameObject.SetActive(false);  // 这里可以是死亡后触发的动作
+        //播放结束角色死亡动画，start coruntine
+        SwitchPanelInGame.instance.ShowGameOverPanel();
     }
 
 

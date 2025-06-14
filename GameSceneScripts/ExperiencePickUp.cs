@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ExperiencePickUp : MonoBehaviour
 {
@@ -14,6 +15,13 @@ public class ExperiencePickUp : MonoBehaviour
     private float checkCounter;
 
     private PlayerController playerController;
+
+    public Sprite exp_green;
+    public Sprite exp_blue;
+    public Sprite exp_red;
+    public Sprite exp_gold;
+
+    public SpriteRenderer expSprite;
 
     // Start is called before the first frame update
     void Start()
@@ -63,5 +71,29 @@ public class ExperiencePickUp : MonoBehaviour
     {
         //Debug.Log(expValue);
         this.expValue = expValue;
+
+        ChangeExpColor(expValue);
     }
+
+    private void ChangeExpColor(int expValue)
+    {
+        if (expValue <= 10)
+        {
+            expSprite.sprite = exp_green;
+        }
+        else if (expValue <= 30)
+        {
+            expSprite.sprite = exp_blue;
+        }
+        else if (expValue <= 80)
+        {
+            expSprite.sprite = exp_red;
+        }
+        else
+        {
+            expSprite.sprite = exp_gold;
+        }
+    }
+
+
 }

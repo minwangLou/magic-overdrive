@@ -105,7 +105,6 @@ public class SwitchPanelInGame : MonoBehaviour
         GameOverController.instance.UpdateTextDisplay();
 
         ChangeVisibilityCanva(gameOverPanel, true);
-        //之后在GameManager那增加切换scene的按钮，和其功能
 
     }
 
