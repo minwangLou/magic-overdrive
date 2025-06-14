@@ -93,7 +93,7 @@ public class SaveManager : MonoBehaviour
     }
     
     //Save Role Data
-    public void SaveRoleData(List<RoleData> roleDatas)
+    public void SaveRoleData()
     {
         string json = JsonConvert.SerializeObject(roleDatas, Formatting.Indented);
         File.WriteAllText(roleFilePath, json);
@@ -101,7 +101,7 @@ public class SaveManager : MonoBehaviour
     }
 
    //Save Map data
-    public void SaveMapData(List<MapData> mapDatas)
+    public void SaveMapData()
     {
         string json = JsonConvert.SerializeObject(mapDatas, Formatting.Indented);
         File.WriteAllText(mapFilePath, json);
@@ -109,7 +109,7 @@ public class SaveManager : MonoBehaviour
     }
 
     //Save Bonus Data
-    public void SaveBonusData(List<BonusData> bonusDatas)
+    public void SaveBonusData()
     {
         string json = JsonConvert.SerializeObject(bonusDatas, Formatting.Indented);
         File.WriteAllText(bonusFilePath, json);
@@ -117,7 +117,7 @@ public class SaveManager : MonoBehaviour
     }
 
     //Save Coin Data
-    public void SaveCoinData(CoinData coinData)
+    public void SaveCoinData()
     {
         string json = JsonConvert.SerializeObject(coinData, Formatting.Indented);
         File.WriteAllText(coinFilePath, json);
@@ -128,10 +128,10 @@ public class SaveManager : MonoBehaviour
     //Save all data in persistent path folder
     public void SaveAllData()
     {
-        SaveRoleData(roleDatas);
-        SaveMapData(mapDatas);
-        SaveBonusData(bonusDatas);
-        SaveCoinData(coinData);
+        SaveRoleData();
+        SaveMapData();
+        SaveBonusData();
+        SaveCoinData();
     }
 
 

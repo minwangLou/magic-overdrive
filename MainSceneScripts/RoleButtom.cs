@@ -43,7 +43,7 @@ public class RoleButtom : MonoBehaviour, IPointerDownHandler
                 GameManager.instance.roleSelected = roleSelcted;
 
                 //Disable role select panel from scene and Enable map selection panel
-                SwitchPanel.instance.PassRolToMap();
+                SwitchPanelOutGame.instance.PassRolToMap();
                 SelectAnotherRole();
             }
         }

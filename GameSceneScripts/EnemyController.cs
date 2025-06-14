@@ -100,6 +100,13 @@ public class EnemyController : MonoBehaviour
             DropCoin();
 
             Destroy(gameObject);
+
+            GameOverController.instance.totalKills++;
+            if (enemyBoss == true)
+            {
+                GameOverController.instance.bossDefeated++;
+            }
+            
         }
 
         

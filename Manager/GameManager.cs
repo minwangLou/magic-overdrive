@@ -13,8 +13,16 @@ public class GameManager : MonoBehaviour
 
     public MapData mapData;
 
+    public int coinObtainInGame;
+
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
         DontDestroyOnLoad(gameObject);
         Debug.Log(Application.persistentDataPath);
@@ -83,6 +91,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void EndGame()
+    {
+        coinObtainInGame = CoinController.instance.currentCoins;
+        SceneManager.LoadScene("1-MainScene");
+
+    }
+
+    public void UpdateCoinAmount()
+    {
+        CoinManager.instance.AddCoin(coinObtainInGame);
+    }
 
 
 

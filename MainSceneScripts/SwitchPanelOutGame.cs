@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class SwitchPanel : MonoBehaviour
+public class SwitchPanelOutGame : MonoBehaviour
 {
-    public static SwitchPanel instance;
+    public static SwitchPanelOutGame instance;
 
     public GameObject roleSelectPanel;
     public GameObject mapSelectPanel;
@@ -27,6 +27,7 @@ public class SwitchPanel : MonoBehaviour
     private void Start()
     {
         IniciateGame();
+
     }
 
     private void IniciateGame()

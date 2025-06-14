@@ -20,6 +20,12 @@ public class CoinManager : MonoBehaviour
     private void Start()
     {
         this.coinData = SaveManager.instance.coinData;
+
+        if (GameManager.instance.coinObtainInGame > 0)
+        {
+            GameManager.instance.UpdateCoinAmount();
+            SaveManager.instance.SaveCoinData();
+        }
     }
 
     private void Update()

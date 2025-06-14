@@ -100,7 +100,7 @@ public class AttributeManager : MonoBehaviour
     //Asigna valor de role atributo para el role,
     public List<Attribute> TotalAttributeCalculation ()
     {
-        List<Attribute> totalAttribute = CloneUtils.DeepCopyAttributeList(baseAtributeDatas);
+        List<Attribute> totalAttribute = Utils.DeepCopyAttributeList(baseAtributeDatas);
         /*
         for (int i = 1; i < totalAttribute.Count; i++)
         {
@@ -123,7 +123,7 @@ public class AttributeManager : MonoBehaviour
     //Se realiza en el caso de selecionar en level up upgrate el objeto de tipo weapon
     public List<Attribute> TotalAttributeCalculation(List <Attribute> weaponAttribute)
     {
-        List<Attribute> totalAttribute = CloneUtils.DeepCopyAttributeList(baseAtributeDatas);
+        List<Attribute> totalAttribute = Utils.DeepCopyAttributeList(baseAtributeDatas);
         foreach (BonusData bonus in bonusDatas)
         {
             if (bonus != null)

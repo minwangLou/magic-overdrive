@@ -16,8 +16,9 @@ public class PausePanelController : MonoBehaviour
     private List<ObjectPanelInfo> weaponList = new List<ObjectPanelInfo>();
     private List<ObjectPanelInfo> bonusList = new List<ObjectPanelInfo>();
 
-    private List<BonusData> bonusDatas;
+    
     private List<WeaponData> weaponDatas;
+    private List<BonusData> bonusDatas;
 
     public GameObject bonusPrefab;
     public GameObject levelPrefab;
@@ -36,9 +37,6 @@ public class PausePanelController : MonoBehaviour
         newObject.objectID = bonusID;
         newObject.objectInPanel = Instantiate(bonusPrefab, _bonusList);
 
-        /*newObject.objectInPanel.transform.GetChild(0).gameObject.GetComponent<Image>().sprite
-            = Resources.Load<Sprite>(bonusDatas[bonusID].bonusIcon);
-        */
         SetObjectIcon(newObject.objectInPanel, bonusDatas[bonusID].bonusIcon);
 
 

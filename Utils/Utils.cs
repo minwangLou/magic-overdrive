@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class CloneUtils
+public static class Utils
 {
     public static List<Attribute> DeepCopyAttributeList(List<Attribute> originalList)
     {
@@ -25,5 +25,12 @@ public static class CloneUtils
         copiedList.Insert(0, null);
 
         return copiedList;
+    }
+
+    public static string FormatTime(float seconds)
+    {
+        int min = Mathf.FloorToInt(seconds / 60);
+        int sec = Mathf.FloorToInt(seconds % 60);
+        return $"{min:00}:{sec:00}";
     }
 }

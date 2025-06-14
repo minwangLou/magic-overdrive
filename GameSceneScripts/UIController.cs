@@ -19,20 +19,21 @@ public class UIController : MonoBehaviour
 
     //level up buttons
     public LevelUpSelectionButton[] levelUpButtons;
-    public GameObject levelUpPanel;
 
 
     //Coin
     public TMP_Text coinText;
 
+    //End Game Interface
+    public GameObject gameOverInterface;
 
+    public TMP_Text timeSurvivalMostrate;
+    [HideInInspector]public float timeSurvivalInSeconds;
 
-    void Start()
+    private void Update()
     {
-        if (levelUpPanel.activeSelf == true)
-        {
-            levelUpPanel.SetActive(false);
-        }
+        timeSurvivalInSeconds += Time.deltaTime;
+        timeSurvivalMostrate.text = Utils.FormatTime(timeSurvivalInSeconds);
     }
 
 
@@ -46,8 +47,7 @@ public class UIController : MonoBehaviour
 
     public void SkipLevelUp()
     {
-        levelUpPanel.SetActive(false);
-        Time.timeScale = 1f;
+        SwitchPanelInGame.instance.DisableLevelUpPanel();
 
         ExperienceLevelController.instance.upgrateObjectSelect = true;
     }
@@ -61,4 +61,6 @@ public class UIController : MonoBehaviour
     {
         Time.timeScale = 0f;
     }
+
+    
 }

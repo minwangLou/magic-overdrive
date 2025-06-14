@@ -103,12 +103,17 @@ public class ExperienceLevelController : MonoBehaviour
 
             expNeedToLevelUp = CalculateExpToLevelUp();
         }
+
+        UIController.instance.UpdateExperience(currentExperience, CalculateExpToLevelUp(), currentLevel);
     }
 
     private IEnumerator ShowLevelUpPanelCoroutine()
     {
+        /*
         UIController.instance.levelUpPanel.SetActive(true);
         Time.timeScale = 0f;
+        */
+        SwitchPanelInGame.instance.ShowLevelUpPanel();
 
         ShowLevelUpObject();
 
@@ -116,7 +121,7 @@ public class ExperienceLevelController : MonoBehaviour
 
         yield return new WaitUntil(() => upgrateObjectSelect);
 
-        Time.timeScale = 1f; // 恢复时间
+        //Time.timeScale = 1f; // 恢复时间
     }
 
 

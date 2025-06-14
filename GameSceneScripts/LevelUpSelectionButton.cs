@@ -64,9 +64,11 @@ public class LevelUpSelectionButton : MonoBehaviour
             {
                 AttributeManager.instance.SelectBonusToUpgrate(objectSelect.idObject);
             }
-
+            /*
             UIController.instance.levelUpPanel.SetActive(false);
             Time.timeScale = 1f;
+            */
+            SwitchPanelInGame.instance.DisableLevelUpPanel();
 
             ExperienceLevelController.instance.upgrateObjectSelect = true;
 
