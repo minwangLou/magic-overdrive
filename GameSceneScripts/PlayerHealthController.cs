@@ -32,10 +32,14 @@ public class PlayerHealthController : MonoBehaviour
         float finalDamage = Mathf.Max(0, damageTaked - armor);
         currentHealth -= finalDamage;
 
+        PlayerController.instance.playerTakeDamage();
+
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            OnPlayerDeath();
+            //OnPlayerDeath();
+            StartCoroutine(PlayerController.instance.RoleDeath());
         }
 
         ChangeValueHealthSlide();

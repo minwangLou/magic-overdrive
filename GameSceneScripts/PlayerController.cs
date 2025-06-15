@@ -13,13 +13,25 @@ public class PlayerController : MonoBehaviour
 
     public Transform _weaponList;
 
+    public Transform _playerPrefab;
+    private GameObject playerPrefabInstantiate;
+    [HideInInspector]public Animator playerAnimator;
 
+    private SpriteRenderer prefabSprite;
+    public float prefabAlpha;
+    public float damageAnimationTimer;
+    private float currentDamageAnimationTimer;
+
+    //Movimiento del Role
     [HideInInspector] public float moveSpeed;
     private Vector3 movement;
 
     [HideInInspector]public float pickUpRange;
 
     private PlayerHealthController healthController;
+
+    public float showDeadAnimationTimer;
+    private bool playerDead = false;
 
 
     private void Awake()
@@ -29,15 +41,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        /*
-        //random.range nunca se conge el valor más alto, por tanto no es necesario añadir un -1 al valor obtenido de Count
-        if (assignedWeapons.Count == 0)
-        {
-            AddWeapon(Random.Range(0, unassignedWeapons.Count));
-        }
-
-        ActivateWeaponStartGame();
-        */
 
         healthController = PlayerHealthController.instance;
 
@@ -51,10 +54,13 @@ public class PlayerController : MonoBehaviour
         roleData = GameManager.instance.roleSelected;
 
         //添加role prefab后取消comentar，根据选择到的role生成对应的prefab
-        /*
         GameObject rolePrefab = Resources.Load<GameObject>(roleData.rolePrefab_location);
-        Instantiate(rolePrefab, _playerPrefab);
-        */
+        playerPrefabInstantiate = Instantiate(rolePrefab, _playerPrefab);
+
+        playerAnimator = playerPrefabInstantiate.GetComponent<Animator>();
+        prefabSprite = playerPrefabInstantiate.GetComponent<SpriteRenderer>();
+
+
         List<Attribute> totalAttribute = AttributeManager.instance.TotalAttributeCalculation();
         UpdateRoleAttribute(totalAttribute);
 
@@ -95,9 +101,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (roleIniciate) 
+        if (roleIniciate && playerDead == false) 
         {
             playerMove();
+            TakeDamageAnimation();
         }
         
     }
@@ -113,43 +120,67 @@ public class PlayerController : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
         movement.Normalize();
         transform.position += movement * moveSpeed * Time.deltaTime;
+
+        PlayerMovementAnimation(movement);
+
+
+    }
+
+    private void PlayerMovementAnimation(Vector2 movement)
+    {
+        bool isRunning = movement != Vector2.zero;
+        playerAnimator.SetBool("isRun", isRunning);
+
+        // 设置朝向
+        if (movement.x > 0)
+            playerPrefabInstantiate.transform.localScale = new Vector3(1, 1, 1);  // 朝右
+        else if (movement.x < 0)
+            playerPrefabInstantiate.transform.localScale = new Vector3(-1, 1, 1); // 朝左（反转 X）
     }
 
 
-    /*
-
-
-    private void ActivateWeaponStartGame()
+    public IEnumerator RoleDeath()
     {
-        for (int i = 0; i < unassignedWeapons.Count; i++)
+        playerAnimator.SetTrigger("isDeath");
+        playerDead = true;
+        GetComponent<Collider2D>().enabled = false;
+
+        yield return new WaitForSeconds(showDeadAnimationTimer);
+
+        gameObject.SetActive(false);
+        SwitchPanelInGame.instance.ShowGameOverPanel();
+    }
+
+    private void TakeDamageAnimation()
+    {
+        if (currentDamageAnimationTimer > 0f)
         {
-            unassignedWeapons[i].gameObject.SetActive(false);
+            currentDamageAnimationTimer -= Time.deltaTime;
+
+            if (!Mathf.Approximately(prefabSprite.color.a, prefabAlpha))
+            {
+                Color color = prefabSprite.color;
+                color.a = Mathf.Clamp01(prefabAlpha);
+                prefabSprite.color = color;
+            }
         }
-
-        assignedWeapons[0].gameObject.SetActive(true);
-    }
-
-
-
-
-    public void AddWeapon (int weaponNumber)
-    {
-        if (weaponNumber < unassignedWeapons.Count)
+        else
         {
-            assignedWeapons.Add(unassignedWeapons[weaponNumber]);
+            if (!Mathf.Approximately(prefabSprite.color.a, 1f))
+            {
+                Color color = prefabSprite.color;
+                color.a = 1f;
+                prefabSprite.color = color;
+            }
 
-
-            unassignedWeapons.RemoveAt(weaponNumber);
+            currentDamageAnimationTimer = 0f;
         }
     }
 
-    public void AddWeapon (Weapon weaponToAdd)
+    public void playerTakeDamage()
     {
-
-        assignedWeapons.Add(weaponToAdd);
-        unassignedWeapons.Remove(weaponToAdd);
-
-        weaponToAdd.gameObject.SetActive(true);
+        currentDamageAnimationTimer = damageAnimationTimer;
     }
-    */
+
+
 }
