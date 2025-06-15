@@ -14,4 +14,5 @@ public class WaveInfo
     public GameObject[] enemyListToSpawn;//El tipo de enemigo que aparece en un wave
     public float waveLength; // Tiempo total de un wave
     public float timeBetweenSpawns; //Tiempo que separa cada enemigos que aparecen
+    public int maxNumberSpawn;
 }

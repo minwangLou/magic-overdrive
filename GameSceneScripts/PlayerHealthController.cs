@@ -10,6 +10,8 @@ public class PlayerHealthController : MonoBehaviour
 
     public float currentHealth, maxHealth, recovery, armor;
 
+    private float recoverTimer = 0f;
+
     public Slider healthSlider;
 
     private void Awake()
@@ -17,17 +19,12 @@ public class PlayerHealthController : MonoBehaviour
         instance = this;
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        currentHealth = maxHealth;
-
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = currentHealth;
-
-        StartCoroutine(HealthRegenRoutine());
+        RecoverHealthPerSeconds();
     }
+
+
 
     public void TakeDamage(float damageTaked)
     {
@@ -63,29 +60,36 @@ public class PlayerHealthController : MonoBehaviour
 
 
     //Cada segundo recuperar las cantidades de vida seg¨²n el valor que tiene recovery
-    private IEnumerator HealthRegenRoutine()
+    private void RecoverHealthPerSeconds()
     {
-        float timer = 0f;
-
-        while (true)
+        if (currentHealth < maxHealth && recovery > 0)
         {
-            timer += Time.deltaTime;
 
-            if (timer >= 1f)
+            recoverTimer += Time.deltaTime;
+
+            if (recoverTimer >= 1f)
             {
-                timer -= 1f;
+                recoverTimer -= 1f;
 
-                if (currentHealth < maxHealth && recovery > 0)
-                {
-                    currentHealth += recovery;
-                    if (currentHealth > maxHealth)
-                        currentHealth = maxHealth;
+                currentHealth += recovery;
 
-                    ChangeValueHealthSlide();
-                }
+                if (currentHealth > maxHealth)
+                    currentHealth = maxHealth;
+
+                ChangeValueHealthSlide();
             }
-
-            yield return null;
         }
+
+    }
+
+    public void UpdateMaxHealth(float updateMaxHealth)
+    {
+        float maxHealthDiferent = updateMaxHealth - maxHealth;
+        currentHealth += maxHealthDiferent;
+        maxHealth = updateMaxHealth;
+
+        healthSlider.maxValue = maxHealth;
+        ChangeValueHealthSlide();
     }
 }
+

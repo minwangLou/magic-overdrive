@@ -24,11 +24,13 @@ public class UIController : MonoBehaviour
     //Coin
     public TMP_Text coinText;
 
-    //End Game Interface
-    public GameObject gameOverInterface;
-
     public TMP_Text timeSurvivalMostrate;
     [HideInInspector]public float timeSurvivalInSeconds;
+
+    [HideInInspector]public int skipCount;
+    [HideInInspector]public bool skipCountUpdate = false;
+    public CanvasGroup skipButtom;
+    public TMP_Text _counter;
 
     private void Update()
     {
@@ -47,9 +49,16 @@ public class UIController : MonoBehaviour
 
     public void SkipLevelUp()
     {
-        SwitchPanelInGame.instance.DisableLevelUpPanel();
+        if (skipCount > 0)
+        {
+            SwitchPanelInGame.instance.DisableLevelUpPanel();
 
-        ExperienceLevelController.instance.upgrateObjectSelect = true;
+            ExperienceLevelController.instance.upgrateObjectSelect = true;
+            
+            skipCount--;
+            CheckSkipCount();
+
+        }
     }
 
     public void UpdateCoinText()
@@ -62,5 +71,14 @@ public class UIController : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    
+    public void CheckSkipCount()
+    {
+        if (skipCount == 0)
+        {
+            skipButtom.alpha = 0.7f;
+            skipButtom.interactable = false;
+        }
+        _counter.text = skipCount.ToString();
+
+    }
 }

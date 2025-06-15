@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public static EnemySpawner instance;
 
-    public int MaxNumberSpawn;
+    public int maxNumberSpawn;
     private int currentEnemyNumber;//para test, se puede borrar luego
 
 
@@ -105,7 +105,7 @@ public class EnemySpawner : MonoBehaviour
                 }
 
                 spawnCounter -= Time.deltaTime;
-                if (spawnCounter <= 0  && enemyList.Count < MaxNumberSpawn)
+                if (spawnCounter <= 0  && enemyList.Count < maxNumberSpawn)
                 {
                     spawnCounter = waves[currentWave].timeBetweenSpawns;
 
@@ -286,6 +286,7 @@ public class EnemySpawner : MonoBehaviour
 
         waveCounter = waves[currentWave].waveLength;
         spawnCounter = waves[currentWave].timeBetweenSpawns;
+        maxNumberSpawn = waves[currentWave].maxNumberSpawn;
     }
 
 }

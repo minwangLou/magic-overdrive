@@ -8,32 +8,24 @@ public class PlayerController : MonoBehaviour
 
     public RoleData roleData;
 
-    //public Transform _playerPrefab;
 
     private bool roleIniciate = false;
 
     public Transform _weaponList;
 
+
+    [HideInInspector] public float moveSpeed;
+    private Vector3 movement;
+
+    [HideInInspector]public float pickUpRange;
+
+    private PlayerHealthController healthController;
+
+
     private void Awake()
     {
         instance = this;
     }
-
-    //public List<Weapon> unassignedWeapons, assignedWeapons;
-
-    public float moveSpeed;
-    private Vector3 movement;
-
-    public float pickUpRange;
-
-    public PlayerHealthController healthController;
-    //public int maxWeapons = 3;
-
-
-    
-    //public List<Weapon> fullyLevelledWeapons = new List<Weapon>();
-
-
 
     void Start()
     {
@@ -76,7 +68,7 @@ public class PlayerController : MonoBehaviour
     public void UpdateRoleAttribute(List<Attribute> totalAttribute)
     {
         healthController.armor = totalAttribute[2].value;
-        healthController.maxHealth = totalAttribute[3].value;
+        healthController.UpdateMaxHealth(totalAttribute[3].value);
         healthController.recovery = totalAttribute[4].value;
 
         moveSpeed = totalAttribute[10].value;
@@ -84,6 +76,16 @@ public class PlayerController : MonoBehaviour
 
         ExperienceLevelController.instance.expIncrease = totalAttribute[12].value;
         CoinController.instance.coinIncrease = totalAttribute[13].value;
+
+        if (UIController.instance.skipCountUpdate == false)
+        {
+
+            UIController.instance.skipCount = (int)totalAttribute[14].value;
+            UIController.instance.skipCountUpdate = true;
+
+            UIController.instance.CheckSkipCount();
+        }
+        
 
 
         //añadir los atributos de growth, greed y magnet.
