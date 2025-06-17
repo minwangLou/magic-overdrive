@@ -33,6 +33,8 @@ public class ExperienceLevelController : MonoBehaviour
 
     public bool upgrateObjectSelect;
 
+    public ExtraUpgrateType alwayExtraUpgrate;
+
 
 
     // Start is called before the first frame update
@@ -98,8 +100,17 @@ public class ExperienceLevelController : MonoBehaviour
 
             UIController.instance.UpdateExperience(currentExperience, CalculateExpToLevelUp(), currentLevel);
 
-            // 弹出面板并等待玩家选择
-            yield return ShowLevelUpPanelCoroutine();
+            //打入断点
+            if (alwayExtraUpgrate != ExtraUpgrateType.Null)
+            {
+                ApplyExtraUpgrate(alwayExtraUpgrate);
+            }
+            else
+            {
+                // 弹出面板并等待玩家选择
+                yield return ShowLevelUpPanelCoroutine();
+            }
+
 
             expNeedToLevelUp = CalculateExpToLevelUp();
         }
@@ -107,21 +118,20 @@ public class ExperienceLevelController : MonoBehaviour
         UIController.instance.UpdateExperience(currentExperience, CalculateExpToLevelUp(), currentLevel);
     }
 
+
+
     private IEnumerator ShowLevelUpPanelCoroutine()
     {
-        /*
-        UIController.instance.levelUpPanel.SetActive(true);
-        Time.timeScale = 0f;
-        */
+
         SwitchPanelInGame.instance.ShowLevelUpPanel();
 
-        ShowLevelUpObject();
+        ShowLevelUpSelection();
 
         upgrateObjectSelect = false; // 重置选择状态
 
         yield return new WaitUntil(() => upgrateObjectSelect);
 
-        //Time.timeScale = 1f; // 恢复时间
+
     }
 
 
@@ -141,123 +151,47 @@ public class ExperienceLevelController : MonoBehaviour
     }
 
 
-    public void ShowLevelUpObject()
+    public void ShowLevelUpSelection()
     {
         poolManager.ClearPool();
 
         poolManager.SetUpObjectPool();
 
-        for (int i = 0; i < uiController.levelUpButtons.Length; i++)
-        {
+
+        for (int i = 0; i < uiController.selectionNumber; i++){
+
             PoolObject objectExtract = poolManager.ExtractRandomObjectFromPool();
 
-            //测试，后续请删除
-            //infoObjectExtract(objectExtract);
             if (objectExtract != null)
             {
-                uiController.levelUpButtons[i].UpdateButtonDisplay(objectExtract);
+                uiController.levelUpSelection[i].gameObject.SetActive(true);
+                uiController.levelUpSelection[i].UpdateButtonDisplay(objectExtract);
             }
-            else
-            {
-                //处理无升级物品，生成金币和血量
-                //需添加
-            }
-            
         }
 
-        //Mostrar solo los botones que tiene herramienta para realizar upgrade, omitir el botón que está vació 
-        for (int i = 0; i < uiController.levelUpButtons.Length; i++)
+        if (poolManager.objectSelectList.Count == 0)
         {
-            if (i < poolManager.objectSelectList.Count)
-            {
-                uiController.levelUpButtons[i].gameObject.SetActive(true);
+            uiController.levelUpSelection[0].gameObject.SetActive(true);
+            uiController.levelUpSelection[1].gameObject.SetActive(true);
 
-            }
-            else
-            {
-                uiController.levelUpButtons[i].gameObject.SetActive(false);
-            }
-
+            uiController.levelUpSelection[0].UpdatebuttonWithCoin();
+            uiController.levelUpSelection[1].UpdatebuttonWithHealth();
         }
 
+        poolManager.isReady = false;
     }
-    //测试，后续请删除
-    private void infoObjectExtract(PoolObject objectExtract)
+
+    public void ApplyExtraUpgrate(ExtraUpgrateType upgrateType)
     {
-        Debug.Log(objectExtract.name);
-        if (objectExtract.bonus != null)
+        if (upgrateType == ExtraUpgrateType.Coin)
         {
+            CoinController.instance.AddCoins(50);
 
-        }
-        else
+        }else if (upgrateType == ExtraUpgrateType.Health)
         {
-            WeaponData weapon = objectExtract.weapon;
-            Debug.Log(weapon.name + "\nCurrentLevel: " + weapon.currentLevel + "\n");
+            PlayerHealthController.instance.RecoverRoleHealth(50f);
         }
-        
     }
-
-    /*
-    //test de weapon pull, se cambiará luego
-    private void ShowUpgradeWeapon()
-    {
-
-        weaponsToUpgrade.Clear();
-
-        List<Weapon> availableWeapons = new List<Weapon>();
-        
-        availableWeapons.AddRange(PlayerController.instance.assignedWeapons);
-        //primer hueco de upgrate, simpre que sea arma unblocked que tiene por el jugador
-        if (availableWeapons.Count > 0)
-        {
-            int selected = Random.Range(0, availableWeapons.Count);
-            weaponsToUpgrade.Add(availableWeapons[selected]);
-            availableWeapons.RemoveAt(selected);
-        }
-
-        //añadir al weapon poll las armas que no está asignado al jugador
-        //bloqueará este funcionamiento si el número de arma que tiene jugador es igual que máximo permitido
-        int numberWeaponAssigned = PlayerController.instance.assignedWeapons.Count + PlayerController.instance.fullyLevelledWeapons.Count;
-        if (numberWeaponAssigned < PlayerController.instance.maxWeapons)
-        {
-            availableWeapons.AddRange(PlayerController.instance.unassignedWeapons);
-        }
-
-        //restos huecos de upgrate
-        for (int i = weaponsToUpgrade.Count; i < 3; i++)
-        {
-            if (availableWeapons.Count > 0)
-            {
-                int selected = Random.Range(0, availableWeapons.Count);
-                weaponsToUpgrade.Add(availableWeapons[selected]);
-                availableWeapons.RemoveAt(selected);
-            }
-        }
-
-        //Actualizar la información de botón según el weapon recibido para upgrade
-        for (int i = 0; i < weaponsToUpgrade.Count; i++)
-        {
-           UIController.instance.levelUpButtons[i].UpdateButtonDisplay(weaponsToUpgrade[i]);
-        }
-
-
-        //Mostrar solo los botones que tiene herramienta para realizar upgrade, omitir el botón que está vació 
-        for (int i = 0; i < UIController.instance.levelUpButtons.Length; i++)
-        {
-            if (i < weaponsToUpgrade.Count)
-            {
-                UIController.instance.levelUpButtons[i].gameObject.SetActive(true);
-
-            } else
-            {
-                UIController.instance.levelUpButtons[i].gameObject.SetActive(false);
-            }
-
-        }
-
-    }
-    */
-
 
 
 }

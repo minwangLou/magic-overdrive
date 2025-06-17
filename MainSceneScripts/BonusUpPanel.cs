@@ -56,7 +56,7 @@ public class BonusUpPanel : MonoBehaviour
         }
     }
 
-    public void BuyButtom()
+    public void Buybutton()
     {
         if (bonusSelect != null)
         {

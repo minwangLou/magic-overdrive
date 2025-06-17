@@ -19,8 +19,8 @@ public class BonusUI : MonoBehaviour, IPointerDownHandler
     public Color normalColor;
     //private bool maxLevel;
 
-    public CustomButtonColor buttomColorNormal;
-    public CustomButtonColor buttomColorMaxLevel;
+    public CustomButtonColor buttonColorNormal;
+    public CustomButtonColor buttonColorMaxLevel;
 
     public BonusData bonusData;
 
@@ -164,14 +164,14 @@ public class BonusUI : MonoBehaviour, IPointerDownHandler
         if (bonusData.outGameCurrentLevel < bonusData.outGameMaxLevel)
         {
             _backGround.color = normalColor;
-            buttomColorNormal.enabled = true;
-            buttomColorMaxLevel.enabled = false;
+            buttonColorNormal.enabled = true;
+            buttonColorMaxLevel.enabled = false;
         }
         else
         {
             _backGround.color = maxLevelColor;
-            buttomColorNormal.enabled = false;
-            buttomColorMaxLevel.enabled = true;
+            buttonColorNormal.enabled = false;
+            buttonColorMaxLevel.enabled = true;
         }
     }
 

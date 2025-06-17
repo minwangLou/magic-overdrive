@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class CustomButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     private Image targetImage;
-    private CanvasGroup canvasButtom;
+    private CanvasGroup canvasbutton;
 
     public Color normalColor;
     public Color hoverColor;
@@ -18,7 +18,7 @@ public class CustomButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (targetImage == null)
             targetImage = GetComponent<Image>();
 
-        canvasButtom = GetComponent<CanvasGroup>();
+        canvasbutton = GetComponent<CanvasGroup>();
 
         targetImage.color = normalColor;
     }
@@ -55,9 +55,9 @@ public class CustomButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private bool IsInteractable()
     {
-        if (canvasButtom == null)
+        if (canvasbutton == null)
             return true; 
-        if (!canvasButtom.interactable)
+        if (!canvasbutton.interactable)
         {
             targetImage.color = normalColor; 
             return false;

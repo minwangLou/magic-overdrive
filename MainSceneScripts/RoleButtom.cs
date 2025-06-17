@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class RoleButtom : MonoBehaviour, IPointerDownHandler
+public class Rolebutton : MonoBehaviour, IPointerDownHandler
 {
-    public static RoleButtom instance;
+    public static Rolebutton instance;
     public RoleData roleSelcted;
     public GameObject _arrowImage;
 
     public bool roleConfirmed;
 
-    public TextMeshProUGUI _buttomText;
+    public TextMeshProUGUI _buttonText;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class RoleButtom : MonoBehaviour, IPointerDownHandler
             //Not have role confirmed yet
             if (roleConfirmed == false)
             {
-                _buttomText.text = "START";
+                _buttonText.text = "START";
                 _arrowImage.SetActive(true);
                 roleConfirmed = true;
 
@@ -51,7 +51,7 @@ public class RoleButtom : MonoBehaviour, IPointerDownHandler
 
     public void SelectAnotherRole()
     {
-        _buttomText.text = "CONFIRM";
+        _buttonText.text = "CONFIRM";
         _arrowImage.SetActive(false);
         roleConfirmed = false;
 

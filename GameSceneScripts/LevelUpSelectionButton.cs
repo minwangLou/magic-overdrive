@@ -11,11 +11,18 @@ public class LevelUpSelectionButton : MonoBehaviour
     public Image objectIcon;
     private PoolObject objectSelect;
 
+    public Sprite coin, health;
+    private bool coinbutton;
+    private bool healthbutton;
+
+    private ExtraUpgrateType upgrateType;
+    public GameObject _alwaysButton;
 
 
 
     public void UpdateButtonDisplay(PoolObject objectSelect)
     {
+
         if (objectSelect.bonus != null){ //seleccionado el objecto de tipo bonus
             BonusData bonus = objectSelect.bonus;
 
@@ -52,6 +59,39 @@ public class LevelUpSelectionButton : MonoBehaviour
     }
 
 
+    public void UpdatebuttonWithCoin()
+    {
+        nameLevelText.text = "COIN";
+        upgradeText.text = "Claim coin";
+        objectIcon.sprite = coin;
+
+        upgrateType = ExtraUpgrateType.Coin;
+
+        activeAlwaysButton();
+    }
+
+    public void UpdatebuttonWithHealth()
+    {
+        nameLevelText.text = "Health";
+        upgradeText.text = "Recover Health";
+        objectIcon.sprite = health;
+
+        upgrateType = ExtraUpgrateType.Health;
+
+        activeAlwaysButton();
+
+
+    }
+
+    private void activeAlwaysButton()
+    {
+        if (_alwaysButton.activeSelf == false)
+        {
+            _alwaysButton.SetActive(true);
+        }
+    }
+
+
     public void SelectUpgrateOption()
     {
         if (objectSelect != null)
@@ -64,67 +104,37 @@ public class LevelUpSelectionButton : MonoBehaviour
             {
                 AttributeManager.instance.SelectBonusToUpgrate(objectSelect.idObject);
             }
-            /*
-            UIController.instance.levelUpPanel.SetActive(false);
-            Time.timeScale = 1f;
-            */
-            SwitchPanelInGame.instance.DisableLevelUpPanel();
 
-            ExperienceLevelController.instance.upgrateObjectSelect = true;
+
 
         }
+        else//生命值和金币
+        {
+            Debug.Log("coinbutton: "+ coinbutton);
+            Debug.Log("healthbutton: " + healthbutton);
 
+            ExperienceLevelController.instance.ApplyExtraUpgrate(upgrateType);
+        }
+
+        objectSelect = null;
+
+        EndSelection();
     }
 
-    //老方法，不使用
-    //老方法，不使用
-    /*
-    public void UpdateButtonDisplay(Weapon theWeapon)
+    private void EndSelection()
     {
-        if (theWeapon.gameObject.activeSelf == true)
-        {
+        UIController.instance.DisableSelectionList();
 
-            upgradeText.text = theWeapon.stats[theWeapon.weaponLevel].upgradeText;
-            objectIcon.sprite = theWeapon.icon;
+        SwitchPanelInGame.instance.DisableLevelUpPanel();
 
-            nameLevelText.text = theWeapon.name + " - Lvl " + (theWeapon.weaponLevel + 1);
-
-
-        }
-        else
-        {
-            upgradeText.text = "Unlock " + theWeapon.name;
-            objectIcon.sprite = theWeapon.icon;
-            nameLevelText.text = theWeapon.name;
-
-        }
-
-        weaponS = theWeapon;
+        ExperienceLevelController.instance.upgrateObjectSelect = true;
     }
 
-    public void SelectUpgrade()
+    public void SelectAlwaysUpgrate()
     {
-
-        if (weaponS != null)
-        {
-            if (weaponS.gameObject.activeSelf == true)
-            {
-                weaponS.LevelUpWeapon();
-            }
-            else
-            {
-                PlayerController.instance.AddWeapon(weaponS);
-            }
-    
-
-            UIController.instance.levelUpPanel.SetActive(false);
-            Time.timeScale = 1f;
-
-        }
-    }
-    */
-
-
+        ExperienceLevelController.instance.alwayExtraUpgrate = upgrateType;
+        EndSelection();
+    } 
 
 
 

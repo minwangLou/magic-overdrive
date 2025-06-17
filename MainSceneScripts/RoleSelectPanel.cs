@@ -27,7 +27,7 @@ public class RoleSelectPanel : MonoBehaviour
     public Color pressColor;
 
 
-    public TextMeshProUGUI _buttomText;
+    public TextMeshProUGUI _buttonText;
 
     public CanvasGroup _canvasGroup; //canvas group
 

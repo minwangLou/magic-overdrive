@@ -53,15 +53,7 @@ public class PlayerHealthController : MonoBehaviour
         healthSlider.value = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
-    
-    private void OnPlayerDeath()
-    {
-        // 你可以在这里添加玩家死亡时的额外处理逻辑
-        gameObject.SetActive(false);  // 这里可以是死亡后触发的动作
-        //播放结束角色死亡动画，start coruntine
-        SwitchPanelInGame.instance.ShowGameOverPanel();
-    }
-
+   
 
     //Cada segundo recuperar las cantidades de vida según el valor que tiene recovery
     private void RecoverHealthPerSeconds()
@@ -74,13 +66,15 @@ public class PlayerHealthController : MonoBehaviour
             if (recoverTimer >= 1f)
             {
                 recoverTimer -= 1f;
-
+                /*
                 currentHealth += recovery;
 
                 if (currentHealth > maxHealth)
                     currentHealth = maxHealth;
 
                 ChangeValueHealthSlide();
+                */
+                RecoverRoleHealth(recovery);
             }
         }
 
@@ -93,6 +87,18 @@ public class PlayerHealthController : MonoBehaviour
         maxHealth = updateMaxHealth;
 
         healthSlider.maxValue = maxHealth;
+        ChangeValueHealthSlide();
+    }
+
+    public void RecoverRoleHealth(float healthAmount)
+    {
+        currentHealth += healthAmount;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
         ChangeValueHealthSlide();
     }
 }

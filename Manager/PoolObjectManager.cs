@@ -22,6 +22,8 @@ public class PoolObjectManager : MonoBehaviour
     private bool bonusDelete = false;
     private bool weaponDelete = false;
 
+    [HideInInspector] public bool isReady = false;
+
 
 
     private void Awake()
@@ -35,6 +37,7 @@ public class PoolObjectManager : MonoBehaviour
     {
         SetUpPoolFromBonus();
         SetUpPoolFromWeapons();
+        isReady = true;
     }
 
     public void ClearPool()

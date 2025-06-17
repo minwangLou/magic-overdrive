@@ -58,8 +58,8 @@ public class RoleUI : MonoBehaviour, IPointerDownHandler
             rolePanel._roleDescription.text = roleData.description;
             rolePanel._record.text = RecordText(roleData.record);
 
-            //Register role data in buttom
-            RoleButtom.instance.roleSelcted = roleData;
+            //Register role data in button
+            Rolebutton.instance.roleSelcted = roleData;
         }
         else //rol lock
         {
@@ -69,7 +69,7 @@ public class RoleUI : MonoBehaviour, IPointerDownHandler
             rolePanel._roleDescription.text = roleData.unlockCondition;
             rolePanel._record.text = "No record";
 
-            RoleButtom.instance.roleSelcted = null;
+            Rolebutton.instance.roleSelcted = null;
         }
     }
 
@@ -92,9 +92,9 @@ public class RoleUI : MonoBehaviour, IPointerDownHandler
 
         RenewUI(roleData);
 
-        if (RoleButtom.instance.roleConfirmed == true)
+        if (Rolebutton.instance.roleConfirmed == true)
         {
-            RoleButtom.instance.SelectAnotherRole();
+            Rolebutton.instance.SelectAnotherRole();
         }
 
 
