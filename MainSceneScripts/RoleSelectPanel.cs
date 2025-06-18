@@ -20,21 +20,24 @@ public class RoleSelectPanel : MonoBehaviour
     public TextMeshProUGUI _roleName; //role Name
     public Image _avatar; //role avatar
     public TextMeshProUGUI _roleDescription; //role description mostrate in scene
-    public TextMeshProUGUI _record;// role record got
-    public Image _backGroundRole;
-    public Image _backGroundRecord;
-    public Color normalColor;
-    public Color pressColor;
 
+    public Image InitWeaponIcon;
+    public TextMeshProUGUI InitWeaponName;
 
-    public TextMeshProUGUI _buttonText;
+    public TextMeshProUGUI _AttributeContent;
+
+    //Cambiar el color de panel una vez selecciona el role para partido
+    public CustomButtonColor _roleDetailPanelColor;
+    public CustomButtonColor _recordPanelColor;
+
+     
 
     public CanvasGroup _canvasGroup; //canvas group
 
 
     private void Awake()
     {
-        instance = this;
+        instance = this; 
     }
 
     
@@ -52,11 +55,15 @@ public class RoleSelectPanel : MonoBehaviour
             if (role != null)
             {
                 RoleUI roleUI = Instantiate(rolePrefab, _roleList).GetComponent<RoleUI>();
+                roleUI.rolePanel = this;
+
+                roleUI.SetRoleData(role);
+
                 if (role.id == 1)
                 {
                     roleUI.RenewUI(role);
                 }
-                roleUI.SetRoleData(role);
+                
             }
          }
     }
@@ -65,13 +72,21 @@ public class RoleSelectPanel : MonoBehaviour
     {
         if (rolConfirm)
         {
+            _roleDetailPanelColor.ChangeToPressColor();
+            _recordPanelColor.ChangeToPressColor();
+            /*
             _backGroundRole.color = pressColor;
             _backGroundRecord.color = pressColor;
+            */
         }
         else
         {
+            _roleDetailPanelColor.ChangeToNormalColor();
+            _recordPanelColor.ChangeToNormalColor();
+            /*
             _backGroundRole.color = normalColor;
             _backGroundRecord.color = normalColor;
+            */
         }
 
     }

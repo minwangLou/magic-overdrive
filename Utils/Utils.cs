@@ -33,4 +33,16 @@ public static class Utils
         int sec = Mathf.FloorToInt(seconds % 60);
         return $"{min:00}:{sec:00}";
     }
+
+    public static string ValueBonusToString (float value, BonusType bonusType)
+    {
+        if (bonusType == BonusType.DirectBonus)
+        {
+            return value.ToString("+0.#;-0.#");
+        }
+        else
+        {
+            return (value * 100f).ToString("+0.#;-0.#") + "%";
+        }
+    }
 }

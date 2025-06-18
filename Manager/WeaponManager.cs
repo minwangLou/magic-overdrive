@@ -10,7 +10,8 @@ public class WeaponManager : MonoBehaviour
 
     public List<TextAsset> weaponTextAssets;
     public List<WeaponData> weaponDatas = new List<WeaponData>();
-    public List<Weapon> weaponsInstantiate = new List<Weapon>();
+
+    public List<Weapon> weaponsInstantiate = new List<Weapon>(); //arma instanciada en el partido
 
     private AttributeManager attributeManager;
 

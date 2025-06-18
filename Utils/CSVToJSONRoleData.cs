@@ -14,19 +14,24 @@ public class CSVToJSONRoleData : MonoBehaviour
     [ContextMenu("CSV TO JSON")]
     private void Convert()
     {
-        ReadRoleDataCSV();
-        roleDatas.Insert(0,null);
+        StartCoroutine(ConvertCoroutine());
+    }
+
+    private IEnumerator ConvertCoroutine()
+    {
+        yield return StartCoroutine(ReadRoleDataCSV());
+
+        roleDatas.Insert(0, null);
 
         linkData();
 
         string json = JsonConvert.SerializeObject(roleDatas, Formatting.Indented);
-        string outputPath = Path.Combine(Application.dataPath + "/Resources/Data", "role.json");
+        string outputPath = Path.Combine(Application.dataPath, "Resources/Data/role.json");
         File.WriteAllText(outputPath, json);
-        Debug.Log("Weapon JSON saved to: " + outputPath);
-
+        Debug.Log("Role JSON saved to: " + outputPath);
     }
 
-    private void ReadRoleDataCSV()
+    private IEnumerator ReadRoleDataCSV()
     {
         bool headerRoleData = false; bool headerRoleBonus = false;
         RoleData roleData;
@@ -36,11 +41,14 @@ public class CSVToJSONRoleData : MonoBehaviour
 
         for (int i = 0; i < lines.Length; i++)
         {
+            /*
             string[] fieldsOriginal = lines[i].Split(',');
 
 
             // 转为 List 并去除空或空白项
             List<string> fields = new List<string>(fieldsOriginal);
+            */
+            List<string> fields = ParseCSVLine(lines[i]);
 
             // 倒序遍历删除空或空白字段
             for (int j = fields.Count - 1; j >= 0; j--)
@@ -54,8 +62,9 @@ public class CSVToJSONRoleData : MonoBehaviour
                     break;
                 }
             }
+            DebugFieldsContent(fields);
 
-
+            Debug.Log("fields.Count: " + fields.Count);
             if (fields.Count == 0) continue;
 
             if (fields.Count == 10)
@@ -81,6 +90,7 @@ public class CSVToJSONRoleData : MonoBehaviour
                 };
 
                 roleDatas.Add(roleData);
+                
             }
 
             else if (fields.Count == 5)
@@ -104,7 +114,7 @@ public class CSVToJSONRoleData : MonoBehaviour
             }
         }
 
-       
+        yield return null;
     }
 
 
@@ -114,6 +124,7 @@ public class CSVToJSONRoleData : MonoBehaviour
         for (int i = 1; i < roleDatas.Count; i++)
         {
             roleDatas[i].roleBonusDatas = new List<RoleBonus>();
+
         }
 
         foreach (RoleBonus roleBonus in roleBonusDatas)
@@ -124,5 +135,52 @@ public class CSVToJSONRoleData : MonoBehaviour
         }
     }
 
+    private void DebugFieldsContent(List<string> fields)
+    {
+        Debug.Log("---- Debugging Fields Content ----");
+        for (int i = 0; i < fields.Count; i++)
+        {
+            Debug.Log($"Index {i}: \"{fields[i]}\"");
+        }
+        Debug.Log("---- End of Fields ----");
+    }
+
+    private List<string> ParseCSVLine(string line)
+    {
+        List<string> result = new List<string>();
+        bool insideQuotes = false;
+        string currentField = "";
+
+        for (int i = 0; i < line.Length; i++)
+        {
+            char c = line[i];
+
+            if (c == '"')
+            {
+                // 处理连续双引号（CSV中""代表一个"）
+                if (insideQuotes && i + 1 < line.Length && line[i + 1] == '"')
+                {
+                    currentField += '"';
+                    i++; // 跳过下一个引号
+                }
+                else
+                {
+                    insideQuotes = !insideQuotes;
+                }
+            }
+            else if (c == ',' && !insideQuotes)
+            {
+                result.Add(currentField);
+                currentField = "";
+            }
+            else
+            {
+                currentField += c;
+            }
+        }
+
+        result.Add(currentField); // 添加最后一个字段
+        return result;
+    }
 
 }

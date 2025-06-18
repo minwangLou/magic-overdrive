@@ -44,7 +44,7 @@ public class BonusUI : MonoBehaviour, IPointerDownHandler
 
             _bonusName.text = bonusData.bonusName;
 
-            //等有了图片再取消comentar
+            
             _bonusIcon.sprite = Resources.Load<Sprite>(bonusData.bonusIcon);
 
             for (int i = 0; i < bonusData.outGameMaxLevel; i++)
@@ -62,7 +62,6 @@ public class BonusUI : MonoBehaviour, IPointerDownHandler
     public void RenewUI(BonusData bonusData)
     {
 
-        //有图片之后取消comentar
         bonusPanel._bonusIcon.sprite = Resources.Load<Sprite>(bonusData.bonusIcon);
 
         bonusPanel._bonusName.text = bonusData.bonusName;

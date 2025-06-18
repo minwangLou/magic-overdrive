@@ -64,4 +64,14 @@ public class CustomButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
         return true;
     }
+
+    public void ChangeToPressColor()
+    {
+        targetImage.color = pressedColor;
+    }
+
+    public void ChangeToNormalColor()
+    {
+        targetImage.color = normalColor;
+    }
 }
