@@ -61,7 +61,7 @@ public class CSVToJson : MonoBehaviour
             if (fields.Count == 0) continue;
 
             //Read Attribute Data column
-            if (fields.Count == 8)
+            if (fields.Count == 9)
             {
                 if (headerWeapon == false) ////Jump Weapon Data header
                 {
@@ -77,7 +77,8 @@ public class CSVToJson : MonoBehaviour
                     currentLevel = int.Parse(fields[4]),
                     maxLevel = int.Parse(fields[5]),
                     weaponPrefab_location = fields[6],
-                    unloke = int.Parse(fields[7])
+                    unloke = int.Parse(fields[7]),
+                    knockBackForce = float.Parse(fields[8])
                 };
 
 

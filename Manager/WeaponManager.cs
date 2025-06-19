@@ -57,6 +57,7 @@ public class WeaponManager : MonoBehaviour
 
         Weapon weaponInstantiate = objectInstantiate.GetComponent<Weapon>();
         weaponInstantiate.weaponID = weaponID;
+        weaponInstantiate.knowBackForce = weaponSelect.knockBackForce;
 
         weaponsInstantiate.Add(weaponInstantiate);
 

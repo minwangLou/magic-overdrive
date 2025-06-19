@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-
+    [HideInInspector]
     public int weaponID;
 
-    public float might, coolDown, area, speed, duration;
-    public int amount;
+     public float might, coolDown, area, speed, duration;
+     public int amount;
+
+    public float knowBackForce;
 
 
     public void SetAttributes(List<Attribute> attibutes)

@@ -13,5 +13,6 @@ public class WeaponData
     public int maxLevel; //0, modify by code
     public string weaponPrefab_location;
     public int unloke; //Initial unlock situation
+    public float knockBackForce;
 
 }
