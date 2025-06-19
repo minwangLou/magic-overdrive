@@ -123,18 +123,28 @@ public class AttributeManager : MonoBehaviour
     //Se realiza en el caso de selecionar en level up upgrate el objeto de tipo weapon
     public List<Attribute> TotalAttributeCalculation(List <Attribute> weaponAttribute)
     {
-        List<Attribute> totalAttribute = Utils.DeepCopyAttributeList(baseAtributeDatas);
+        List<Attribute> newWeaponAttribute = Utils.DeepCopyAttributeList(weaponAttribute);
+        /*
         foreach (BonusData bonus in bonusDatas)
         {
             if (bonus != null)
             {
                 //totalAttribute[bonusData.idAttribute]
-                totalAttribute[bonus.idAttribute].value = 
+                newWeaponAttribute[bonus.idAttribute].value = 
                     BonusTypeCalculation(bonus, weaponAttribute[bonus.idAttribute]);
             }
         }
+        */
+        Debug.Log("Count: " + newWeaponAttribute.Count);
 
-        return totalAttribute;
+        for (int i = 1; i< weaponAttribute.Count; i++)
+        {
+            Debug.Log("current i : " + i);
+            float value = BonusTypeCalculation(bonusDatas[weaponAttribute[i].id], weaponAttribute[i]);
+            newWeaponAttribute[i].value = value;
+        }
+
+        return newWeaponAttribute;
 
     }
 

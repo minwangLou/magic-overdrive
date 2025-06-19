@@ -2,17 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpikeSpawner : MonoBehaviour
+public class SpikeSpawner : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject spikePrefab;
 
-    // Update is called once per frame
+    [Header("Spawn Settings")]
+    public int layers = 3;     // 总共生成几层
+    public int countPerLayer = 8;     // 每层尖刺数量
+    public float layerSpacing = 1.5f;  // 每层之间的半径增量
+    public float randomOffset;
+    public float spawnInterval = 0f;     // 每条尖刺生成间隔，0 表示每帧一条
+
+    private float cooldownTimer;
+
+
     void Update()
     {
-        
+        cooldownTimer -= Time.deltaTime;
+
+        if (cooldownTimer <= 0f)
+        {
+            Vector3 spawnCenter = transform.position;
+            StartCoroutine(SpawnSpikes(spawnCenter));
+            cooldownTimer = coolDown;
+        }
     }
+
+    private IEnumerator SpawnSpikes(Vector3 spawnCenter)
+    {
+        float randomOffset;
+
+        for (int layer = 0; layer < layers; layer++)
+        {
+            randomOffset = Random.Range(0f, 360f);
+
+            float radius = layerSpacing * (layer + 1);
+
+            for (int i = 0; i < countPerLayer; i++)
+            {
+                float angle = (360f / countPerLayer) * i + randomOffset;
+                float rad = angle * Mathf.Deg2Rad;
+                Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * radius;
+
+                // 实例化并设置位置／朝向
+                GameObject spike = Instantiate(spikePrefab,transform);
+                spike.transform.position = spawnCenter + offset;
+
+                // 配置尖刺属性
+                var weapon = spike.GetComponent<SpikeWeapon>();
+                weapon.attack = damage;
+                weapon.tickDamage = damage*0.3f;
+                weapon.duration = duration;
+
+            }
+
+            // 等待下一次生成
+            if (spawnInterval > 0f)
+                yield return new WaitForSeconds(spawnInterval);
+            else
+                yield return null;
+        }
+    }
+
 }

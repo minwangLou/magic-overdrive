@@ -141,11 +141,12 @@ public class CSVToJson : MonoBehaviour
                 Debug.Log((attributes.Count - 1) / (levelAttributes.Count - 1));
                 Debug.Log((attributes.Count - 1));
                 Debug.Log((levelAttributes.Count - 1));
-                for (int i = 0; i<= ((attributes.Count-1)/ (levelAttributes.Count-1)); i++) //number of Attribute (71-1) / (6-1) = 14
+                for (int i = 0; i< ((attributes.Count-1)/ (levelAttributes.Count-1)); i++) //number of Attribute (71-1) / (6-1) = 14
                 {
                     levelAttribute.currentLevelAttribute.Add(null);
                 }
                 assignAttributeToLevel(levelAttribute);
+                levelAttribute.currentLevelAttribute.Insert(0, null);
             }
         }
         Debug.Log(levelAttributes.Count);
@@ -161,11 +162,15 @@ public class CSVToJson : MonoBehaviour
 
     private void assignAttributeToLevel(WeaponLevelAttribute levelAttr)
     {
+        int contador = 0;
+
         foreach (Attribute attr in attributes)
         {
-            if (attr != null && attr.idLevel == levelAttr.id && attr != null)
+            
+            if (attr != null && attr.idLevel == levelAttr.id)
             {
-                levelAttr.currentLevelAttribute[attr.id] = attr;
+                levelAttr.currentLevelAttribute[contador] = attr;
+                contador++;
             }
         }
 

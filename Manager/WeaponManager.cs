@@ -52,6 +52,8 @@ public class WeaponManager : MonoBehaviour
 
 
         GameObject weaponPrefab = Resources.Load<GameObject>(weaponSelect.weaponPrefab_location);
+        Debug.Log(weaponPrefab == null);
+        Debug.Log(weaponSelect.weaponPrefab_location);
 
         GameObject objectInstantiate = Instantiate(weaponPrefab, _weaponList);
 

@@ -21,8 +21,10 @@ public static class Utils
 
             copiedList.Add(newAttr);
         }
-
-        copiedList.Insert(0, null);
+        if (copiedList[0] != null)
+        {
+            copiedList.Insert(0, null);
+        }
 
         return copiedList;
     }

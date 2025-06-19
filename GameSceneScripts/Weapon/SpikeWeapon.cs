@@ -9,10 +9,14 @@ public class SpikeWeapon : MonoBehaviour
     public float duration = 3f;
     public float tickInterval = 1f;
 
+    private Animator anim;
+
     private List<EnemyController> enemiesInRange = new List<EnemyController>();
 
     void Start()
     {
+        anim = GetComponent<Animator>();
+
         // 初始一次伤害
         foreach (EnemyController enemy in enemiesInRange)
         {
@@ -62,6 +66,15 @@ public class SpikeWeapon : MonoBehaviour
     private IEnumerator DestroyAfterDuration()
     {
         yield return new WaitForSeconds(duration);
+
+        anim.SetTrigger("Despawn");
+        yield return new WaitForEndOfFrame(); // 等一帧让 Animator 切入新状态
+        AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
+        float animLength = state.length;
+
+        // 等待动画播完
+        yield return new WaitForSeconds(animLength);
+
         Destroy(gameObject);
     }
 }

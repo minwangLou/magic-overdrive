@@ -47,7 +47,7 @@ public class ZoneWeapon : Weapon
             {
                 if (enemiesInRange[i] != null)
                 {
-                    enemiesInRange[i].EnemyTakeDamage(might, knockBackEnemy);
+                    enemiesInRange[i].EnemyTakeDamage(damage, knockBackEnemy);
                 }
                 else
                 {

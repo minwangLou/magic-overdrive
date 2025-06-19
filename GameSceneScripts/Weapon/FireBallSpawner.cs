@@ -47,7 +47,7 @@ public class FireBallSpawner : Weapon
             fireBallList.Add(fireball);
             fireBallAngles.Add(angle); // 保存初始角度
 
-            fireball.GetComponent<FireBallDamager>().weaponDamage = might;
+            fireball.GetComponent<FireBallDamager>().weaponDamage = damage;
 
             weaponMaxSize = fireball.transform.localScale;
             fireball.transform.localScale = Vector3.zero;
