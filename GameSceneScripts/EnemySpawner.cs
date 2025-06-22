@@ -18,6 +18,8 @@ public class EnemySpawner : MonoBehaviour
     private List<GameObject> enemyList = new List<GameObject>();
     private List<GameObject> bossList = new List<GameObject>();
 
+    [HideInInspector]public List<GameObject> enemyInstantiate;
+
     public int enemyCheckPerFrame;
     private int enemyToCheck;
     public float despawnDistance;
@@ -113,6 +115,7 @@ public class EnemySpawner : MonoBehaviour
 
                     
                     GameObject newEnemy = Instantiate(selectEnemieToSpawn(), _enemyList);// = Instantiate(waves[currentWave].enemyToSpawn, _enemyList);
+                    enemyInstantiate.Add(newEnemy);
 
                     newEnemy.transform.position = spawnPosition;
 

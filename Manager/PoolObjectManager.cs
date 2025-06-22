@@ -18,9 +18,6 @@ public class PoolObjectManager : MonoBehaviour
     public int maxNumberBonus;
     [HideInInspector]public int currentNumberBonus;
 
-    //Eliminar todo el objeto de tipo bonus o weapon de pool unassign por llegar número de objeto máximo.
-    private bool bonusDelete = false;
-    private bool weaponDelete = false;
 
     [HideInInspector] public bool isReady = false;
 

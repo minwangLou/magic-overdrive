@@ -26,18 +26,15 @@ public class TornadoSpawner : Weapon
         {
             Vector2 randomDirection = Random.insideUnitCircle.normalized;
 
-            GameObject tornadoInstantiate = Instantiate(TornadoPrefab, transform);
-            tornadoInstantiate.transform.position = transform.position;
+            GameObject tornadoInstantiate = Instantiate(TornadoPrefab, transform.position, Quaternion.identity);
 
             tornadoInstantiate.transform.localScale = Vector3.one * area;
 
 
             // 传入攻击和移动参数
             var damager = tornadoInstantiate.GetComponent<TornadoWeapon>();
-            damager.weaponDamage = damage;
-            damager.moveDirection = randomDirection;
-            damager.moveSpeed = speed;
-            damager.duration = duration;
+            damager.Initialize(damage, randomDirection, speed, duration, knockBackForce);
+
 
         }
     }

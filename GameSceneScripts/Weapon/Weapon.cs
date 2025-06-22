@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
      public float damage, coolDown, area, speed, duration;
      public int amount;
 
-    public float knowBackForce;
+    public float knockBackForce;
 
 
     public void SetAttributes(List<Attribute> attibutes)

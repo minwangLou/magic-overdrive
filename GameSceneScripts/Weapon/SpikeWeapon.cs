@@ -4,28 +4,52 @@ using UnityEngine;
 
 public class SpikeWeapon : MonoBehaviour
 {
-    public float attack = 10f;
-    public float tickDamage = 3f;
-    public float duration = 3f;
+    private float damage = 10f;
+    private float tickDamage = 3f;
+    private float duration = 3f;
     public float tickInterval = 1f;
 
     private Animator anim;
+    private BoxCollider2D boxCol;
 
     private List<EnemyController> enemiesInRange = new List<EnemyController>();
+    private LayerMask enemyMask;
+
+    private float knockBackForce;
+
+    void Awake()
+    {
+        boxCol = GetComponent<BoxCollider2D>();
+        enemyMask = LayerMask.GetMask("Enemy"); // 确保敌人都在 Enemy 这个 Layer
+    }
+
+    public void Initialize(float damage, float tickDamage, float duration, float knockBackForce)
+    {
+        this.damage = damage;
+        this.tickDamage = tickDamage;
+        this.duration = duration;
+        this.knockBackForce = knockBackForce;
+    }
+
 
     void Start()
     {
         anim = GetComponent<Animator>();
 
-        // 初始一次伤害
-        foreach (EnemyController enemy in enemiesInRange)
-        {
-            if (enemy != null)
-                enemy.EnemyTakeDamage(attack, false);
-        }
+        FirstAreaAttack();
 
         StartCoroutine(ApplyTickDamage());
-        StartCoroutine(DestroyAfterDuration());
+        StartCoroutine(Utils.DestroyAfterDuration(anim,duration,gameObject));
+    }
+
+    private void FirstAreaAttack()
+    {
+        Vector2 center = boxCol.bounds.center;
+        Vector2 size = boxCol.bounds.size;
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, transform.eulerAngles.z, enemyMask);
+
+        foreach (var col in hits)
+            OnTriggerEnter2D(col);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,10 +57,10 @@ public class SpikeWeapon : MonoBehaviour
         if (collision.CompareTag("Enemy"))
         {
             EnemyController enemy = collision.GetComponent<EnemyController>();
-            if (enemy != null && !enemiesInRange.Contains(enemy))
+            if (enemy != null)
             {
+                enemy.EnemyTakeDamage(damage, knockBackForce);
                 enemiesInRange.Add(enemy);
-                enemy.EnemyTakeDamage(attack, false); // 再补一次初始伤害（保险）
             }
         }
     }
@@ -55,26 +79,16 @@ public class SpikeWeapon : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(tickInterval);
-            foreach (EnemyController enemy in enemiesInRange)
+
+            enemiesInRange.RemoveAll(e => e == null);
+
+            var auxList = enemiesInRange.ToArray();
+
+            foreach (EnemyController enemy in auxList)
             {
                 if (enemy != null)
-                    enemy.EnemyTakeDamage(tickDamage, false);
+                    enemy.EnemyTakeDamage(tickDamage, knockBackForce*0.5f);
             }
         }
-    }
-
-    private IEnumerator DestroyAfterDuration()
-    {
-        yield return new WaitForSeconds(duration);
-
-        anim.SetTrigger("Despawn");
-        yield return new WaitForEndOfFrame(); // 等一帧让 Animator 切入新状态
-        AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
-        float animLength = state.length;
-
-        // 等待动画播完
-        yield return new WaitForSeconds(animLength);
-
-        Destroy(gameObject);
     }
 }

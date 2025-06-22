@@ -135,11 +135,9 @@ public class AttributeManager : MonoBehaviour
             }
         }
         */
-        Debug.Log("Count: " + newWeaponAttribute.Count);
 
         for (int i = 1; i< weaponAttribute.Count; i++)
         {
-            Debug.Log("current i : " + i);
             float value = BonusTypeCalculation(bonusDatas[weaponAttribute[i].id], weaponAttribute[i]);
             newWeaponAttribute[i].value = value;
         }

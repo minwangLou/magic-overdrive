@@ -6,13 +6,13 @@ public class FireBallDamager : MonoBehaviour
 {
 
     [HideInInspector]public float weaponDamage;
-    public bool knockBackEnemy;
+    public float knockBackForce;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
         {
-            collision.GetComponent<EnemyController>().EnemyTakeDamage(weaponDamage, knockBackEnemy);
+            collision.GetComponent<EnemyController>().EnemyTakeDamage(weaponDamage, knockBackForce);
         }
     }
 

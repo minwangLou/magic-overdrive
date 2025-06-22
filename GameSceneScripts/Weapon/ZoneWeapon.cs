@@ -7,8 +7,6 @@ public class ZoneWeapon : Weapon
 
     private float currentTimer;
 
-    public bool knockBackEnemy;
-
     private List<EnemyController> enemiesInRange = new List<EnemyController>();
 
 
@@ -47,7 +45,7 @@ public class ZoneWeapon : Weapon
             {
                 if (enemiesInRange[i] != null)
                 {
-                    enemiesInRange[i].EnemyTakeDamage(damage, knockBackEnemy);
+                    enemiesInRange[i].EnemyTakeDamage(damage, knockBackForce);
                 }
                 else
                 {

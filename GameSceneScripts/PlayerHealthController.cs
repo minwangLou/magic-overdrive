@@ -14,6 +14,10 @@ public class PlayerHealthController : MonoBehaviour
 
     public Slider healthSlider;
 
+    public ShieldSpawner shield;
+
+
+
     private void Awake()
     {
         instance = this;
@@ -28,6 +32,13 @@ public class PlayerHealthController : MonoBehaviour
 
     public void TakeDamage(float damageTaked)
     {
+        if (shield != null)
+        {
+            if (shield.playerInvincible || shield.ProtectPlayer())
+            {
+                return;
+            }
+        }
 
         float finalDamage = Mathf.Max(0, damageTaked - armor);
         currentHealth -= finalDamage;
@@ -43,8 +54,6 @@ public class PlayerHealthController : MonoBehaviour
         }
 
         ChangeValueHealthSlide();
-
-
 
     }
 
@@ -101,5 +110,6 @@ public class PlayerHealthController : MonoBehaviour
 
         ChangeValueHealthSlide();
     }
+
 }
 

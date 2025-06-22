@@ -14,6 +14,7 @@ public class SpikeSpawner : Weapon
     public float spawnInterval = 0f;     // 每条尖刺生成间隔，0 表示每帧一条
 
     private float cooldownTimer;
+    
 
 
     void Update()
@@ -45,14 +46,13 @@ public class SpikeSpawner : Weapon
                 Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * radius;
 
                 // 实例化并设置位置／朝向
-                GameObject spike = Instantiate(spikePrefab,transform);
-                spike.transform.position = spawnCenter + offset;
+                GameObject spike = Instantiate(spikePrefab, spawnCenter + offset, Quaternion.identity);
+                //spike.transform.position = spawnCenter + offset;
 
                 // 配置尖刺属性
                 var weapon = spike.GetComponent<SpikeWeapon>();
-                weapon.attack = damage;
-                weapon.tickDamage = damage*0.3f;
-                weapon.duration = duration;
+                weapon.Initialize(damage, damage*0.3f, duration, knockBackForce);
+
 
             }
 

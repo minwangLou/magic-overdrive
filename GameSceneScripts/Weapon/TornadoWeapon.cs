@@ -4,23 +4,35 @@ using UnityEngine;
 
 public class TornadoWeapon : MonoBehaviour
 {
-    [HideInInspector] public float weaponDamage;
-    [HideInInspector] public Vector2 moveDirection;
-    [HideInInspector] public float moveSpeed;
-    public float duration;
+    private float damage;
+    private Vector2 moveDirection;
+    private float speed;
+    private float duration;
+    private float knockBackForce;
 
     private Animator anim;
 
     private Rigidbody2D rb;
+
+
+    public void Initialize(float damage, Vector2 moveDirection, float speed, float duration, float knockBackForce )
+    {
+        this.damage = damage;
+        this.moveDirection = moveDirection;
+        this.speed = speed;
+        this.duration = duration;
+        this.knockBackForce = knockBackForce;
+    }
+
 
     private void Start()
     {
         anim = GetComponent<Animator>();
 
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = moveDirection * moveSpeed;
+        rb.velocity = moveDirection * speed;
 
-        StartCoroutine(DestroyAfterDuration());
+        StartCoroutine(Utils.DestroyAfterDuration(anim, duration, gameObject));
     }
 
 
@@ -28,22 +40,8 @@ public class TornadoWeapon : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyController>()?.EnemyTakeDamage(weaponDamage, false);
+            collision.GetComponent<EnemyController>()?.EnemyTakeDamage(damage, knockBackForce);
         }
     }
 
-    private IEnumerator DestroyAfterDuration()
-    {
-        yield return new WaitForSeconds(duration);
-
-        anim.SetTrigger("Despawn");
-        yield return new WaitForEndOfFrame(); // 等一帧让 Animator 切入新状态
-        AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
-        float animLength = state.length;
-
-        // 等待动画播完
-        yield return new WaitForSeconds(animLength);
-
-        Destroy(gameObject);
-    }
 }

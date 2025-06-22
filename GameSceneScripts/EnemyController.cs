@@ -31,7 +31,8 @@ public class EnemyController : MonoBehaviour
 
     public bool enemyBoss = false;
 
-
+    private float currentMoveSpeed;
+    private float knockBackForce;
 
     // Start is called before the first frame update
     void Start()
@@ -43,12 +44,12 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         updateKnockBackCounter();
         if (target != null)
         {
-            rbEnemy.velocity = (target.position - transform.position).normalized * moveSpeed;
+            rbEnemy.velocity = (target.position - transform.position).normalized * currentMoveSpeed;
         }
-
 
     }
 
@@ -56,6 +57,8 @@ public class EnemyController : MonoBehaviour
     {
         damage = enemyData.damage;
         moveSpeed = enemyData.moveSpeed;
+        currentMoveSpeed = moveSpeed;
+
         maxHealth = enemyData.maxHealth;
 
         knockBackTime = enemyData.knockBackTime;
@@ -86,7 +89,7 @@ public class EnemyController : MonoBehaviour
 
 
     //Sufrir ataque por el enemigo cuando choca con el arma del jugador.
-    public void EnemyTakeDamage(float damageToTake)
+    public void ApplyDamage(float damageToTake)
     {
         maxHealth -= damageToTake;
 
@@ -99,7 +102,9 @@ public class EnemyController : MonoBehaviour
 
             DropCoin();
 
+            EnemySpawner.instance.enemyInstantiate.Remove(gameObject);
             Destroy(gameObject);
+
 
             GameOverController.instance.totalKills++;
             if (enemyBoss == true)
@@ -111,15 +116,19 @@ public class EnemyController : MonoBehaviour
 
         
     }
-
+   
     //Reducir vida de enemigo
     //y llamar al método para realizar el efecto de knock back cuando la herramienta le coincide
-    public void EnemyTakeDamage(float damageToTake, bool knockBack)
+    public void EnemyTakeDamage(float damageToTake, float knockBackForce)
     {
-        EnemyTakeDamage(damageToTake);
-
-        if (knockBack && knockBackCounter <= 0)
+        if (damageToTake > 0)
         {
+            ApplyDamage(damageToTake);
+        }
+
+        if ( knockBackCounter <= 0)
+        {
+            currentMoveSpeed = -knockBackForce;
             knockBackCounter = knockBackTime;
         }
 
@@ -132,18 +141,13 @@ public class EnemyController : MonoBehaviour
         {
             knockBackCounter -= Time.deltaTime;
 
-            if (moveSpeed > 0)
-            {
-                moveSpeed = -moveSpeed * 2f;
-            }
-
             if (knockBackCounter <= 0)
             {
-                moveSpeed = Mathf.Abs(moveSpeed / 2f);
+                currentMoveSpeed = moveSpeed;
             }
         }
     }
-
+    
 
     private void DropExperience()
     {
