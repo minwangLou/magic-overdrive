@@ -35,16 +35,28 @@ public class MapManager : MonoBehaviour
         player = PlayerController.instance.gameObject.transform;
         _mapchunk = gameObject.transform;
 
+        /*
+        InicializeSpecialChunk();
+
+        currentChunkCoord = GetChunkCoordFromPosition(player.position);
+        UpdateChunksAround(currentChunkCoord);
+        */
+
+        // 启动协程，等 prefab 就绪后再初始化
+        StartCoroutine(InitWhenPrefabReady());
+    }
+
+    private IEnumerator InitWhenPrefabReady()
+    {
+        // 等待 defaultChunkPrefab 被外部赋值（Inspector 或者异步加载）
+        yield return new WaitUntil(() => defaultChunkPrefab != null);
 
         InicializeSpecialChunk();
 
         currentChunkCoord = GetChunkCoordFromPosition(player.position);
         UpdateChunksAround(currentChunkCoord);
-
-
     }
 
-    
 
     void Update()
     {

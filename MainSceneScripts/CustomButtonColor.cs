@@ -26,7 +26,6 @@ public class CustomButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!IsInteractable()) return;
-
         isPointerOver = true;
         targetImage.color = hoverColor;
     }
@@ -34,7 +33,6 @@ public class CustomButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerExit(PointerEventData eventData)
     {
         if (!IsInteractable()) return;
-
         isPointerOver = false;
         targetImage.color = normalColor;
     }
@@ -42,7 +40,6 @@ public class CustomButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!IsInteractable()) return;
-
         targetImage.color = pressedColor;
     }
 
@@ -59,7 +56,7 @@ public class CustomButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerEx
             return true; 
         if (!canvasbutton.interactable)
         {
-            targetImage.color = normalColor; 
+            //targetImage.color = normalColor; 
             return false;
         }
         return true;

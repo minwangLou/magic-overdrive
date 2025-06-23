@@ -13,7 +13,6 @@ public class WeaponManager : MonoBehaviour
 
     public List<Weapon> weaponsInstantiate = new List<Weapon>(); //arma instanciada en el partido
 
-    private AttributeManager attributeManager;
 
     public Transform _weaponList;
 
@@ -21,11 +20,6 @@ public class WeaponManager : MonoBehaviour
     {
         instance = this;
         ReadWeaponJsonDatas();
-    }
-
-    private void Start()
-    {
-        attributeManager = AttributeManager.instance;
     }
 
     private void ReadWeaponJsonDatas()
@@ -72,7 +66,6 @@ public class WeaponManager : MonoBehaviour
 
     public void UpdateAllWeaponAttributes()
     {
-        //attributeManager.TotalBonusValueCalculation();
 
         foreach (Weapon weapon in weaponsInstantiate)
         {
@@ -122,39 +115,6 @@ public class WeaponManager : MonoBehaviour
 
         }
     }
-        /*
 
-    //Se ejecuta cuando tiene en level up, cogió el objeto de tipo Bonus
-    public void UpdateAllWeaponAttributes()
-    {
-        attributeManager.TotalBonusValueCalculation();
-
-        for (int i = 1; i < weaponDatas.Count; i++) //empieza apartir index 1 de la lista, index 0 = null
-        {
-            UpdateWeaponAttribute(i);
-        }
-    }
-
-
-    //Contiene currentLevel ++1, no tiene que escribir en el externo.
-    public void LevelUpWeaponAttribute(int weaponID)
-    {
-        weaponDatas[weaponID].currentLevel++;
-        UpdateWeaponAttribute(weaponID);
-
-    }
-
-    //改
-    public void UpdateWeaponAttribute(int weaponID)
-    {
-        List<Attribute> weaponCurrentLevelAttribute = weaponDatas[weaponID].weaponAttribute[weaponDatas[weaponID].currentLevel].currentLevelAttribute;
-
-        //Extraer lista de attribute actualizado
-        List<Attribute> attributeUpdate = attributeManager.TotalAttributeCalculation(weaponCurrentLevelAttribute);
-
-        //Reemplazar con el viejo
-        weaponDatas[weaponID].weaponAttribute[weaponDatas[weaponID].currentLevel].currentLevelAttribute = attributeUpdate;
-    }
-        */
 
 }

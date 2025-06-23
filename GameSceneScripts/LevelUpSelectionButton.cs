@@ -44,7 +44,7 @@ public class LevelUpSelectionButton : MonoBehaviour
 
             //添加图片后取消comentar
             //objectIcon.sprite = Resources.Load<Sprite>(weapon.weaponIcon_location);
-
+            /*
             if (weapon.currentLevel > 0)
             {
                 upgradeText.text = weapon.weaponAttribute[weapon.currentLevel].upgrateText;
@@ -53,6 +53,8 @@ public class LevelUpSelectionButton : MonoBehaviour
             {
                 upgradeText.text = "Unlock " + weapon.name;
             }
+            */
+            upgradeText.text = weapon.weaponAttribute[weapon.currentLevel +1].upgrateText;
         }
 
         this.objectSelect = objectSelect;

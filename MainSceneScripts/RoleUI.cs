@@ -100,14 +100,12 @@ public class RoleUI : MonoBehaviour, IPointerDownHandler
     
     public void OnPointerDown(PointerEventData eventData)//µã»÷
     {
-
-        RenewUI(roleData);
-
         if (Rolebutton.instance.roleConfirmed == true)
         {
-            Rolebutton.instance.SelectAnotherRole();
+            Rolebutton.instance.SelectAnotherRole(roleData);
         }
 
+        RenewUI(roleData);
 
     }
 

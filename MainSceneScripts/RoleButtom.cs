@@ -44,18 +44,23 @@ public class Rolebutton : MonoBehaviour, IPointerDownHandler
 
                 //Disable role select panel from scene and Enable map selection panel
                 SwitchPanelOutGame.instance.PassRolToMap();
-                SelectAnotherRole();
+                SelectAnotherRole(null);
             }
         }
     }
 
-    public void SelectAnotherRole()
+    public void SelectAnotherRole(RoleData anotherRoleData)
     {
-        _buttonText.text = "CONFIRM";
-        _arrowImage.SetActive(false);
-        roleConfirmed = false;
+        if (anotherRoleData == null || anotherRoleData != roleSelcted)
+        {
+            _buttonText.text = "CONFIRM";
+            _arrowImage.SetActive(false);
+            roleConfirmed = false;
 
-        RoleSelectPanel.instance.ChangeColorRolPanel(false);
+            RoleSelectPanel.instance.ChangeColorRolPanel(false);
+        }
+
+
     }
 
 }

@@ -29,45 +29,12 @@ public class GameManager : MonoBehaviour
         
     }
 
-    /*
-    void Start()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    public void ChangeScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "2-GameScene")
-        {
-            StartGame();
-        }
-    }
-    */
     
-    public void MapSelection()
-    {
-        mapData = MapSelectPanel.instance.mapDataSelect;
-    }
 
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        /*
-        if (sceneName.Equals("2-GameScene"))
-        {
-            StartGame();
-        }
-        */
+
     }
     
 
@@ -80,6 +47,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         //añadir la generación de mapa
+        MapManager.instance.defaultChunkPrefab = Resources.Load<GameObject>(mapData.mapChunk_location);
 
         //Según el role seleccionado, calcular sus atributos que va a usar en el juego
         AttributeManager.instance.SetUpRoleData(roleSelected);
@@ -87,7 +55,7 @@ public class GameManager : MonoBehaviour
         //Instanciar el jugador y su arma en el partido
         PlayerController.instance.IniciateRoleData();
 
-        MapManager.instance.defaultChunkPrefab = Resources.Load<GameObject>(mapData.mapChunk_location);
+        
 
     }
 

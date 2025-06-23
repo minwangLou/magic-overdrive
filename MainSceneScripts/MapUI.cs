@@ -49,7 +49,7 @@ public class MapUI : MonoBehaviour, IPointerDownHandler
             mapPanel._mapDetailName.text = mapData.mapName;
             mapPanel._mapDetailContent.text = GenerateMapDetail(mapData);
 
-            mapPanel.mapDataSelect = mapData;
+            MapButtom.instance.mapSelected = mapData;
 
         }
         else //map lock
@@ -83,7 +83,14 @@ public class MapUI : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+
+        if (MapButtom.instance.mapConfirmed == true)
+        {
+            MapButtom.instance.SelectAnotherMap(mapData);
+        }
+
         RenewUi(mapData);
+
     }
 
     //Mostrar al jugador qu¨¦ mapa ha seleccionado.

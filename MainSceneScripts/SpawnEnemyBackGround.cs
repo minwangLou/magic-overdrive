@@ -54,6 +54,7 @@ public class SpawnEnemyBackGround : MonoBehaviour
         GameObject enemy = Instantiate(prefab, startPos, Quaternion.identity);
         enemy.GetComponent<EnemyController>().enabled = false;
         enemy.transform.SetParent(transform, false); // 组织清晰
+        enemy.GetComponent<CapsuleCollider2D>().isTrigger = true;
 
         // 启动移动协程
         StartCoroutine(MoveEnemy(enemy.GetComponent<Rigidbody2D>(), enemy, endPos));
