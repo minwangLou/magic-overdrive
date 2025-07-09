@@ -110,7 +110,7 @@ public class BonusUI : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)//µã»÷
     {
-
+        AudioManager.instance.PlaySound(SoundType.ButtonClick);
         RenewUI(bonusData);
 
     }

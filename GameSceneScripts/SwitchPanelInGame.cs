@@ -11,6 +11,7 @@ public class SwitchPanelInGame : MonoBehaviour
     public CanvasGroup levelUpPanel;
     public CanvasGroup pausePanel;
     public CanvasGroup gameOverPanel;
+    public CanvasGroup settingPanel;
 
     private bool permitPause;
 
@@ -44,19 +45,22 @@ public class SwitchPanelInGame : MonoBehaviour
             {
                 ShowPausePanel();
             }
-            else if (permitPause == false && pausePanel.alpha == 1)
+            else if (permitPause == false)
             {
                 DisablePausePanel();
+
             }
-            
+
         }
     }
+
 
     private void IniciateGameScene()
     {
         ChangeVisibilityCanva(levelUpPanel, false);
         ChangeVisibilityCanva(pausePanel, false);
         ChangeVisibilityCanva(gameOverPanel, false);
+        ChangeVisibilityCanva(settingPanel, false);
 
     }
 
@@ -82,11 +86,34 @@ public class SwitchPanelInGame : MonoBehaviour
         PausePanelController.instance.UpdateLevelAllObject();
     }
 
+    public void PassPauseToSetting()
+    {
+        ChangeVisibilityCanva(settingPanel, true);
+    }
+
+    public void PassSettingToPause()
+    {
+        ChangeVisibilityCanva(settingPanel, false);
+    }
+
     public void DisablePausePanel()
     {
-        permitPause = true;
-        Time.timeScale = 1f;
-        ChangeVisibilityCanva(pausePanel, false);
+        if (pausePanel.alpha == 1)
+        {
+            if (settingPanel.alpha == 1)
+            {
+                PassSettingToPause();
+                AudioManager.instance.SaveVolumeValue();
+
+            }
+
+            permitPause = true;
+            Time.timeScale = 1f;
+            ChangeVisibilityCanva(pausePanel, false);
+
+        }
+
+
     }
 
     public void ShowGameOverPanel()

@@ -131,6 +131,8 @@ public class ShieldSpawner : Weapon
 
     private void RemoveShield()
     {
+        AudioManager.instance.PlaySound(SoundType.Shield);
+
         currentShieldPoint -= 1;
 
         int lastIndex = shieldInstantiateList.Count - 1;

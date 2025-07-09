@@ -11,25 +11,23 @@ public class GameManager : MonoBehaviour
 
     public RoleData roleSelected;
 
-    public MapData mapData;
+    public GameObject mapChunk;
 
     public int coinObtainInGame;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         instance = this;
         DontDestroyOnLoad(gameObject);
-        Debug.Log(Application.persistentDataPath);
-        
+        //Debug.Log(Application.persistentDataPath);
+
     }
 
-    
+    private void Start()
+    {
+        AudioManager.instance.PlayBGM(BGMType.MainMenu);
+    }
+
 
     public void ChangeScene(string sceneName)
     {
@@ -40,14 +38,14 @@ public class GameManager : MonoBehaviour
 
     public void RegisterGameManager()
     {
-        StartGame();
+       StartGame();
     }
 
     //Se ejecuta despúes de cambiar el escenario al GameScene
     public void StartGame()
     {
         //añadir la generación de mapa
-        MapManager.instance.defaultChunkPrefab = Resources.Load<GameObject>(mapData.mapChunk_location);
+        MapManager.instance.defaultChunkPrefab = mapChunk;
 
         //Según el role seleccionado, calcular sus atributos que va a usar en el juego
         AttributeManager.instance.SetUpRoleData(roleSelected);
@@ -63,6 +61,8 @@ public class GameManager : MonoBehaviour
     {
         coinObtainInGame = CoinController.instance.currentCoins;
         SceneManager.LoadScene("1-MainScene");
+        Time.timeScale = 1f;
+        Destroy(gameObject);
 
     }
 

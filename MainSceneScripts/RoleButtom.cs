@@ -39,6 +39,7 @@ public class Rolebutton : MonoBehaviour, IPointerDownHandler
             }
             else
             {
+                AudioManager.instance.PlaySound(SoundType.ButtonClick);
                 //Once Player confirmed role, register those role data in game manager.
                 GameManager.instance.roleSelected = roleSelcted;
 
@@ -63,4 +64,8 @@ public class Rolebutton : MonoBehaviour, IPointerDownHandler
 
     }
 
+    public void ReturnMainPanel()
+    {
+        SelectAnotherRole(null);
+    }
 }

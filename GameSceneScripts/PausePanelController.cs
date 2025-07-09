@@ -13,19 +13,21 @@ public class PausePanelController : MonoBehaviour
     }
 
 
-    private List<ObjectPanelInfo> weaponList = new List<ObjectPanelInfo>();
-    private List<ObjectPanelInfo> bonusList = new List<ObjectPanelInfo>();
+    private List<ObjectPanelInfo> weaponPanelList = new List<ObjectPanelInfo>();
+    private List<ObjectPanelInfo> bonusPanelList = new List<ObjectPanelInfo>();
 
     
     private List<WeaponData> weaponDatas;
     private List<BonusData> bonusDatas;
 
-    public GameObject bonusPrefab;
+    public GameObject weaponPanelPrefab;
+    public GameObject bonusPanelPrefab;
     public GameObject levelPrefab;
 
-    public Transform _bonusList;
+    public Transform _bonusPanelList;
+    public Transform _weaponPanelList;
 
-    private void Start()
+    private void OnEnable()
     {
         bonusDatas = SaveManager.instance.bonusDatas;
         weaponDatas = WeaponManager.instance.weaponDatas;
@@ -33,18 +35,20 @@ public class PausePanelController : MonoBehaviour
 
     public void AddBonusToList (int bonusID)
     {
-        ObjectPanelInfo newObject = new ObjectPanelInfo();
-        newObject.objectID = bonusID;
-        newObject.objectInPanel = Instantiate(bonusPrefab, _bonusList);
+        ObjectPanelInfo newObject = new ObjectPanelInfo
+        {
+            objectID = bonusID,
+            objectInPanel = Instantiate(bonusPanelPrefab, _bonusPanelList),
+            LevelBackGroundList = new List<GameObject>(),
+            objectType = ObjectType.Bonus
+
+        };
 
         SetObjectIcon(newObject.objectInPanel, bonusDatas[bonusID].bonusIcon);
 
 
         Transform _levelList = newObject.objectInPanel.transform.GetChild(1);
 
-
-        newObject.LevelBackGroundList = new List<GameObject>();
-        newObject.objectType = ObjectType.Bonus;
         for (int i = 0; i< bonusDatas[bonusID].inGameMaxLevel; i++)
         {
             GameObject LevelFrame = Instantiate(levelPrefab, _levelList);
@@ -57,8 +61,38 @@ public class PausePanelController : MonoBehaviour
 
         }
 
-        bonusList.Add(newObject);
+        bonusPanelList.Add(newObject);
 
+    }
+
+    public void AddWeaponToList (int weaponID)
+    {
+        ObjectPanelInfo newObject = new ObjectPanelInfo 
+        {
+            objectID = weaponID,
+            objectInPanel = Instantiate(weaponPanelPrefab, _weaponPanelList),
+            LevelBackGroundList = new List<GameObject>(),
+            objectType = ObjectType.Weapon
+
+         };
+
+        SetObjectIcon(newObject.objectInPanel, weaponDatas[weaponID].weaponIcon_location);
+
+        Transform _levelList = newObject.objectInPanel.transform.GetChild(1);
+
+        for (int i = 0; i < weaponDatas[weaponID].maxLevel; i++)
+        {
+            GameObject LevelFrame = Instantiate(levelPrefab, _levelList);
+            //Extraer el backGround, color relleno del cuadro de nivel
+            GameObject _LevelBackGround = LevelFrame.transform.GetChild(0).gameObject;
+
+            _LevelBackGround.SetActive(false);
+
+            newObject.LevelBackGroundList.Add(_LevelBackGround);
+
+        }
+
+        weaponPanelList.Add(newObject);
     }
 
     private void SetObjectIcon(GameObject panel, string iconPath)
@@ -69,9 +103,14 @@ public class PausePanelController : MonoBehaviour
 
     public void UpdateLevelAllObject()
     {
-        foreach (ObjectPanelInfo objectToUpdate in bonusList)
+        foreach (ObjectPanelInfo bonustToUpdate in bonusPanelList)
         {
-            UpdateObjectLevel(objectToUpdate);
+            UpdateObjectLevel(bonustToUpdate);
+        }
+
+        foreach (ObjectPanelInfo weaponToUpdate in weaponPanelList)
+        {
+            UpdateObjectLevel(weaponToUpdate);
         }
     }
     
@@ -81,6 +120,13 @@ public class PausePanelController : MonoBehaviour
         if (objectInPanel.objectType == ObjectType.Bonus)
         {
             for (int i = 0; i< bonusDatas[objectInPanel.objectID].inGameCurrentLevel; i++)
+            {
+                objectInPanel.LevelBackGroundList[i].SetActive(true);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < weaponDatas[objectInPanel.objectID].currentLevel; i++)
             {
                 objectInPanel.LevelBackGroundList[i].SetActive(true);
             }

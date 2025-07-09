@@ -204,7 +204,7 @@ public class AttributeManager : MonoBehaviour
     {
         if (bonusDatas[idBonus].inGameCurrentLevel == 0)
         {
-            ObjectUIManager.instance.AddBonusIcon(bonusDatas[idBonus]);
+            ObjectUIController.instance.AddBonusIcon(bonusDatas[idBonus]);
             PoolObjectManager.instance.currentNumberBonus++;
         }
 

@@ -7,10 +7,11 @@ public class SwitchPanelOutGame : MonoBehaviour
 {
     public static SwitchPanelOutGame instance;
 
+    public GameObject mainPanel;
+    public GameObject settingPanel;
+    public GameObject bonusUpPanel;
     public GameObject roleSelectPanel;
     public GameObject mapSelectPanel;
-    public GameObject mainPanel;
-    public GameObject bonusUpPanel;
 
     public CanvasGroup mainPanelCanva;
     
@@ -20,6 +21,7 @@ public class SwitchPanelOutGame : MonoBehaviour
         instance = this;
 
         mainPanel.SetActive(true);
+        settingPanel.SetActive(true);
         roleSelectPanel.SetActive(true);
         mapSelectPanel.SetActive(true);
         bonusUpPanel.SetActive(true);
@@ -33,9 +35,21 @@ public class SwitchPanelOutGame : MonoBehaviour
     private void IniciateGame()
     {
         ChangeVisibilityCanva(mainPanelCanva,true);
+        ChangeVisibilityCanva(SettingPanel.instance.canvasGroup, false);
         ChangeVisibilityCanva(RoleSelectPanel.instance._canvasGroup, false);
         ChangeVisibilityCanva(MapSelectPanel.instance._canvasGroup, false);
         ChangeVisibilityCanva(BonusUpPanel.instance._canvasGroup, false);
+    }
+
+    public void PassMainToSetting()
+    {
+        ChangeVisibilityCanva(SettingPanel.instance.canvasGroup, true);
+    }
+
+    public void PassSettingToMain()
+    {
+        ChangeVisibilityCanva(SettingPanel.instance.canvasGroup, false);
+        AudioManager.instance.SaveVolumeValue();
     }
 
     public void PassMainToBonusUp()

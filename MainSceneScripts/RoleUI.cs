@@ -51,8 +51,8 @@ public class RoleUI : MonoBehaviour, IPointerDownHandler
             rolePanel._avatar.sprite = Resources.Load<Sprite>(roleData.avatar);
             rolePanel._roleDescription.text = roleData.description;
 
-            //ÓÐÎäÆ÷iconºó½âËø
-            //rolePanel.InitWeaponIcon.sprite = Resources.Load<Sprite>(initWeapon.weaponIcon_location);
+
+            rolePanel.InitWeaponIcon.sprite = Resources.Load<Sprite>(initWeapon.weaponIcon_location);
             rolePanel.InitWeaponName.text = initWeapon.name;
 
             //roleAttribute
@@ -105,6 +105,7 @@ public class RoleUI : MonoBehaviour, IPointerDownHandler
             Rolebutton.instance.SelectAnotherRole(roleData);
         }
 
+        AudioManager.instance.PlaySound(SoundType.ButtonClick);
         RenewUI(roleData);
 
     }

@@ -22,6 +22,8 @@ public class TornadoSpawner : Weapon
 
     private void SpawnWhirlwinds()
     {
+        AudioManager.instance.PlaySound(SoundType.Tornado);
+
         for (int i = 0; i < amount; i++)
         {
             Vector2 randomDirection = Random.insideUnitCircle.normalized;

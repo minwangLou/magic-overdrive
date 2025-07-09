@@ -14,7 +14,7 @@ public class WeaponManager : MonoBehaviour
     public List<Weapon> weaponsInstantiate = new List<Weapon>(); //arma instanciada en el partido
 
 
-    public Transform _weaponList;
+    [HideInInspector]public Transform _weaponList;
 
     private void Awake()
     {
@@ -46,12 +46,11 @@ public class WeaponManager : MonoBehaviour
 
 
         GameObject weaponPrefab = Resources.Load<GameObject>(weaponSelect.weaponPrefab_location);
-        Debug.Log(weaponPrefab == null);
-        Debug.Log(weaponSelect.weaponPrefab_location);
 
         GameObject objectInstantiate = Instantiate(weaponPrefab, _weaponList);
 
         Weapon weaponInstantiate = objectInstantiate.GetComponent<Weapon>();
+
         weaponInstantiate.weaponID = weaponID;
         weaponInstantiate.knockBackForce = weaponSelect.knockBackForce;
 
@@ -60,6 +59,8 @@ public class WeaponManager : MonoBehaviour
         List<Attribute> totalWeaponAttribute = AttributeManager.instance.TotalAttributeCalculation(weaponSelect.weaponAttribute[1].currentLevelAttribute);
 
         weaponInstantiate.SetAttributes(totalWeaponAttribute);
+
+        ObjectUIController.instance.AddWeaponIcon(weaponDatas[weaponID]);
 
     }
 
@@ -92,8 +93,8 @@ public class WeaponManager : MonoBehaviour
         {
             InstantiateWeapon(weaponID);
 
-            ObjectUIManager.instance.AddWeaponIcon(weaponDatas[weaponID]);
             PoolObjectManager.instance.currentNumberWeapon++;
+            Debug.Log("weapon: " + PoolObjectManager.instance.currentNumberWeapon);
 
         }else if (weaponDatas[weaponID].currentLevel > 0 && weaponDatas[weaponID].currentLevel < weaponDatas[weaponID].maxLevel) 
         {

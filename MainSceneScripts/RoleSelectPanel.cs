@@ -83,10 +83,7 @@ public class RoleSelectPanel : MonoBehaviour
         {
             _roleDetailPanelColor.ChangeToNormalColor();
             _recordPanelColor.ChangeToNormalColor();
-            /*
-            _backGroundRole.color = normalColor;
-            _backGroundRecord.color = normalColor;
-            */
+
         }
 
     }

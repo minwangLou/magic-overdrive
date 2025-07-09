@@ -25,6 +25,7 @@ public class ThunderBoltSpawner : Weapon
     // 随机选取场景中的敌人，取不超过 Amount 个，依次在它们当前位置生成雷击。
     private void SpawnRandomThunderBolts()
     {
+
         // 1. 从全局 EnemySpawner 列表复制一份，避免修改原始数据
         List<GameObject> allEnemyGameObjects =
             new List<GameObject>(EnemySpawner.instance.enemyInstantiate);
@@ -39,8 +40,11 @@ public class ThunderBoltSpawner : Weapon
             return;
         }
 
+        AudioManager.instance.PlaySound(SoundType.Thunder);
+
         // 3.决定本次实际落雷次数（不超过可用敌人数量）
         int strikeCount = amount <= totalEnemies ? amount : totalEnemies;
+
 
         // 4. 随机选取 strikeCount 个敌人位置生成雷击
         for (int index = 0; index < strikeCount; index++)

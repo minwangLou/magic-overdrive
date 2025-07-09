@@ -64,11 +64,6 @@ public class ExperienceLevelController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void PlayerGetExp(int amountToGet)
     {
@@ -95,6 +90,7 @@ public class ExperienceLevelController : MonoBehaviour
 
         while (currentExperience >= expNeedToLevelUp)
         {
+            
             currentExperience -= expNeedToLevelUp;
             currentLevel++;
 
@@ -107,6 +103,9 @@ public class ExperienceLevelController : MonoBehaviour
             }
             else
             {
+
+                AudioManager.instance.PlaySound(SoundType.LevelUp);
+
                 // 弹出面板并等待玩家选择
                 yield return ShowLevelUpPanelCoroutine();
             }

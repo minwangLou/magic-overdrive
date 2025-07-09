@@ -51,6 +51,7 @@ public class CoinPickUp : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            AudioManager.instance.PlaySound(SoundType.PickUp);
             CoinController.instance.AddCoins(coinAmount);
 
             Destroy(gameObject);

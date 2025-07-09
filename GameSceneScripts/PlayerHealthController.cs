@@ -39,7 +39,7 @@ public class PlayerHealthController : MonoBehaviour
                 return;
             }
         }
-
+        AudioManager.instance.PlaySound(SoundType.GetHit);
         float finalDamage = Mathf.Max(0, damageTaked - armor);
         currentHealth -= finalDamage;
 
@@ -49,7 +49,6 @@ public class PlayerHealthController : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            //OnPlayerDeath();
             StartCoroutine(PlayerController.instance.RoleDeath());
         }
 

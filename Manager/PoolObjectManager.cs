@@ -83,7 +83,7 @@ public class PoolObjectManager : MonoBehaviour
         PoolObject poolObject;
 
         for (int i = 1; i<weaponDatas.Count; i++)
-        {
+        {//重新检查
             if (weaponDatas[i].unloke == 1 && weaponDatas[i].currentLevel < weaponDatas[i].maxLevel)
             {
                 

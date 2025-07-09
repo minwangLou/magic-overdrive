@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZoneWeapon : Weapon
+public class BlackHole : Weapon
 {
 
     private float currentTimer;
@@ -21,6 +21,7 @@ public class ZoneWeapon : Weapon
     {
         if (collision.tag == "Enemy")
         {
+            collision.GetComponent<EnemyController>().EnemyTakeDamage(damage, knockBackForce);
             enemiesInRange.Add(collision.GetComponent<EnemyController>());
         }
     }
@@ -55,6 +56,11 @@ public class ZoneWeapon : Weapon
             }
         }
     }
-    
-    
+
+    public override void UpdateWeaponStats()
+    {
+        gameObject.transform.localScale = new Vector3(area * 1.5f, area * 1.5f, 1);
+    }
+
+
 }

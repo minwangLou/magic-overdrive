@@ -29,7 +29,7 @@ public class LevelUpSelectionButton : MonoBehaviour
             nameLevelText.text = bonus.bonusName + " - Lvl " + (bonus.inGameCurrentLevel + 1);
 
             upgradeText.text = bonus.bonusInGameDescription;
-            //添加图片后取消comentar
+
             objectIcon.sprite = Resources.Load<Sprite>(bonus.bonusIcon);
 
 
@@ -42,19 +42,10 @@ public class LevelUpSelectionButton : MonoBehaviour
 
             nameLevelText.text = weapon.name + " - Lvl " + (weapon.currentLevel + 1);
 
-            //添加图片后取消comentar
-            //objectIcon.sprite = Resources.Load<Sprite>(weapon.weaponIcon_location);
-            /*
-            if (weapon.currentLevel > 0)
-            {
-                upgradeText.text = weapon.weaponAttribute[weapon.currentLevel].upgrateText;
-            }
-            else
-            {
-                upgradeText.text = "Unlock " + weapon.name;
-            }
-            */
-            upgradeText.text = weapon.weaponAttribute[weapon.currentLevel +1].upgrateText;
+            objectIcon.sprite = Resources.Load<Sprite>(weapon.weaponIcon_location);
+            
+
+            upgradeText.text = weapon.weaponAttribute[weapon.currentLevel +1].upgrateText.Replace("\\n" , "\n");
         }
 
         this.objectSelect = objectSelect;
@@ -96,6 +87,8 @@ public class LevelUpSelectionButton : MonoBehaviour
 
     public void SelectUpgrateOption()
     {
+        AudioManager.instance.PlaySound(SoundType.ButtonClick);
+
         if (objectSelect != null)
         {
             if (objectSelect.weapon != null)
@@ -110,10 +103,8 @@ public class LevelUpSelectionButton : MonoBehaviour
 
 
         }
-        else//生命值和金币
+        else
         {
-            Debug.Log("coinbutton: "+ coinbutton);
-            Debug.Log("healthbutton: " + healthbutton);
 
             ExperienceLevelController.instance.ApplyExtraUpgrate(upgrateType);
         }

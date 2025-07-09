@@ -112,7 +112,7 @@ public class FireBallSpawner : Weapon
         for (int i = 0; i < fireBallList.Count; i++)
         {
             // 更新角度
-            fireBallAngles[i] += speed * Time.deltaTime;
+            fireBallAngles[i] += (speed * 100) * Time.deltaTime;
             if (fireBallAngles[i] > 360f) fireBallAngles[i] -= 360f;
 
             float rad = fireBallAngles[i] * Mathf.Deg2Rad;

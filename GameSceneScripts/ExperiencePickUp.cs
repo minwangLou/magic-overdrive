@@ -60,8 +60,8 @@ public class ExperiencePickUp : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
+            AudioManager.instance.PlaySound(SoundType.PickUp);
             ExperienceLevelController.instance.PlayerGetExp(expValue);
-            //Debug.Log(expValue);
 
             Destroy(gameObject);
         }

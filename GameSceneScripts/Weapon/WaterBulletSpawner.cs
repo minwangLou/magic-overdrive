@@ -22,6 +22,8 @@ public class WaterBulletSpawner : Weapon
 
     private void FireBullets()
     {
+        AudioManager.instance.PlaySound(SoundType.WaterBullet);
+
         // 1. 清理已被销毁的引用
         trackedEnemies.RemoveAll(e => e == null);
 

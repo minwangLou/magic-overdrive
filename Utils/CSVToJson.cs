@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
@@ -13,21 +14,31 @@ public class CSVToJson : MonoBehaviour
     private WeaponData weaponData = new WeaponData();
 
     [ContextMenu("CSV TO JSON")]
-    private void Ejecutar()
+    private void Convert()
+    {
+        StartCoroutine(Ejecutar());
+    }
+
+
+    private IEnumerator Ejecutar()
     {
         attributes.Insert(0, null);
         levelAttributes.Insert(0, null);
 
-        ReadWeaponDataCSV();
+        yield return (ReadWeaponDataCSV());
         linkData();
 
         string json = JsonConvert.SerializeObject(weaponData, Formatting.Indented);
         string outputPath = Path.Combine(Application.dataPath + "/Resources/Data/Weapon", weaponData.name + ".json");
         File.WriteAllText(outputPath, json);
         Debug.Log("Weapon JSON saved to: " + outputPath);
+
+        attributes = new List<Attribute>();
+        levelAttributes = new List<WeaponLevelAttribute>();
+        weaponData = new WeaponData(); 
     }
 
-    private void ReadWeaponDataCSV()
+    private IEnumerator ReadWeaponDataCSV()
     {
 
         bool headerAttribute = false, headerLevelAttribute = false, headerWeapon = false;
@@ -36,7 +47,7 @@ public class CSVToJson : MonoBehaviour
         WeaponData weapon;  
 
 
-        string[] lines = weaponDataCSV.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        string[] lines = weaponDataCSV.text.Split(new[] { "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries);
 
         for (int i = 0; i < lines.Length; i++)
         {
@@ -86,7 +97,7 @@ public class CSVToJson : MonoBehaviour
 
             }else
 
-            if (fields.Count == 3)
+            if (fields.Count == 2)
             {
                 if (headerLevelAttribute == false) //Jump Weapon Level Attribute header
                 {
@@ -97,9 +108,8 @@ public class CSVToJson : MonoBehaviour
 
                 levelAttr = new WeaponLevelAttribute
                 {
-                    idWeapon = int.Parse(fields[0]),
-                    id = int.Parse(fields[1]),
-                    upgrateText = fields[2],
+                    id = int.Parse(fields[0]),
+                    upgrateText = fields[1],
                 };
 
 
@@ -116,18 +126,25 @@ public class CSVToJson : MonoBehaviour
                 }
                 attr = new Attribute
                 {
+                    
                     idLevel = int.Parse(fields[0]),
                     id = int.Parse(fields[1]),
                     name = fields[2],
                     value = float.Parse(fields[3])
                 };
+
+                Debug.Log("idLevel: " + attr.idLevel + 
+                            "\nid: " + attr.id + 
+                            "\nname: " + attr.name +
+                            "\nvalue; " + attr.value);
                 attributes.Add(attr);
             }
 
 
 
             
-        }   
+        }
+        yield return null;
     }
 
     private void linkData()
@@ -141,6 +158,7 @@ public class CSVToJson : MonoBehaviour
                 Debug.Log((attributes.Count - 1) / (levelAttributes.Count - 1));
                 Debug.Log((attributes.Count - 1));
                 Debug.Log((levelAttributes.Count - 1));
+
                 for (int i = 0; i< ((attributes.Count-1)/ (levelAttributes.Count-1)); i++) //number of Attribute (71-1) / (6-1) = 14
                 {
                     levelAttribute.currentLevelAttribute.Add(null);
@@ -149,7 +167,7 @@ public class CSVToJson : MonoBehaviour
                 levelAttribute.currentLevelAttribute.Insert(0, null);
             }
         }
-        Debug.Log(levelAttributes.Count);
+        //Debug.Log(levelAttributes.Count);
         weaponData.weaponAttribute = new List<WeaponLevelAttribute>();
         for (int i = 0; i< levelAttributes.Count; i++)
         {
@@ -172,15 +190,21 @@ public class CSVToJson : MonoBehaviour
                 levelAttr.currentLevelAttribute[contador] = attr;
                 contador++;
             }
+            
         }
+
+        Debug.Log("contador:" + contador);
+
+
 
     }
 
     private void assignLevelToWeapon (WeaponData weapon)
     {
+
         foreach (WeaponLevelAttribute level in levelAttributes)
         {
-            if (level != null && level.idWeapon == weapon.id)
+            if (level != null)
             {
                 weapon.weaponAttribute[level.id] = level;
             }

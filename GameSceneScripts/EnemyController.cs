@@ -123,6 +123,7 @@ public class EnemyController : MonoBehaviour
     {
         if (damageToTake > 0)
         {
+            AudioManager.instance.PlaySound(SoundType.HitEnemy);
             ApplyDamage(damageToTake);
         }
 

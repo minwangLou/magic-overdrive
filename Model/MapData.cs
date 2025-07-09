@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 public class MapData
@@ -17,4 +19,6 @@ public class MapData
     public float goldBonus_plus;
     public float xpBonus_plus;
     public float enemyHelth_plus;
+    [JsonConverter(typeof(StringEnumConverter))]
+    public BGMType bgmType;
 }

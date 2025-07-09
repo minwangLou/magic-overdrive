@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ObjectUIManager : MonoBehaviour
+public class ObjectUIController : MonoBehaviour
 {
-    public static ObjectUIManager instance;
+    public static ObjectUIController instance;
 
     private void Awake()
     {
@@ -20,12 +20,6 @@ public class ObjectUIManager : MonoBehaviour
     private int currentWeaponIconNumber;
     private int currentBonusIconNumber;
 
-    private PausePanelController pausePanel;
-
-    private void Start()
-    {
-        pausePanel = PausePanelController.instance;
-    }
 
     private void HideAllIcons()
     {
@@ -42,7 +36,7 @@ public class ObjectUIManager : MonoBehaviour
 
     public void AddWeaponIcon(WeaponData weapon)
     {
-        /*ÃÌº”Œ‰∆˜Icon∫ÛΩ‚À¯
+
         if (currentWeaponIconNumber < weaponIconList.Count)
         {
 
@@ -53,8 +47,10 @@ public class ObjectUIManager : MonoBehaviour
             weaponIconList[currentWeaponIconNumber].objectID = weapon.id;
 
             currentWeaponIconNumber++;
+
+            PausePanelController.instance.AddWeaponToList(weapon.id);
         }
-        */
+        
     }
 
     public void AddBonusIcon(BonusData bonus)
@@ -80,6 +76,6 @@ public class ObjectUIManager : MonoBehaviour
 [System.Serializable]
 public class ObjectIconInfo
 {
-    public int objectID;
+    [HideInInspector]public int objectID;
     public Image objectIcon;
 }

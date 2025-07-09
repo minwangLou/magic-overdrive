@@ -8,14 +8,15 @@ public class SpikeSpawner : Weapon
 
     [Header("Spawn Settings")]
     public int layers = 3;     // 总共生成几层
-    public int countPerLayer = 8;     // 每层尖刺数量
     public float layerSpacing = 1.5f;  // 每层之间的半径增量
-    public float randomOffset;
     public float spawnInterval = 0f;     // 每条尖刺生成间隔，0 表示每帧一条
 
     private float cooldownTimer;
-    
 
+    private void Start()
+    {
+        cooldownTimer = coolDown;
+    }
 
     void Update()
     {
@@ -35,19 +36,20 @@ public class SpikeSpawner : Weapon
 
         for (int layer = 0; layer < layers; layer++)
         {
+            AudioManager.instance.PlaySound(SoundType.Spike);
+
             randomOffset = Random.Range(0f, 360f);
 
-            float radius = layerSpacing * (layer + 1);
+            float radius = (area*2f) * (layer + 1);
 
-            for (int i = 0; i < countPerLayer; i++)
+            for (int i = 0; i < amount; i++)
             {
-                float angle = (360f / countPerLayer) * i + randomOffset;
+                float angle = (360f / amount) * i + randomOffset;
                 float rad = angle * Mathf.Deg2Rad;
                 Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * radius;
 
-                // 实例化并设置位置／朝向
+                // 实例化并设置位置
                 GameObject spike = Instantiate(spikePrefab, spawnCenter + offset, Quaternion.identity);
-                //spike.transform.position = spawnCenter + offset;
 
                 // 配置尖刺属性
                 var weapon = spike.GetComponent<SpikeWeapon>();
@@ -61,6 +63,15 @@ public class SpikeSpawner : Weapon
                 yield return new WaitForSeconds(spawnInterval);
             else
                 yield return null;
+        }
+    }
+
+    public override void UpdateWeaponStats()
+    {
+        layers = Mathf.Max(1, Mathf.CeilToInt(amount / 3f));
+        if (layers > 3)
+        {
+            layers = 3;
         }
     }
 

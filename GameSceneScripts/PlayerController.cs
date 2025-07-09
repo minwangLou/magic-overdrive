@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
 
         WeaponManager.instance._weaponList = _weaponList;
         WeaponManager.instance.InstantiateWeapon(roleData.initWeaponID);
+        PoolObjectManager.instance.currentNumberWeapon++;
 
         roleIniciate = true;
     }
@@ -92,10 +93,6 @@ public class PlayerController : MonoBehaviour
             UIController.instance.CheckSkipCount();
         }
         
-
-
-        //añadir los atributos de growth, greed y magnet.
-        //añadir la actualización de estos atributos.
     }
 
     // Update is called once per frame
@@ -131,11 +128,10 @@ public class PlayerController : MonoBehaviour
         bool isRunning = movement != Vector2.zero;
         playerAnimator.SetBool("isRun", isRunning);
 
-        // 设置朝向
         if (movement.x > 0)
-            playerPrefabInstantiate.transform.localScale = new Vector3(1, 1, 1);  // 朝右
+            playerPrefabInstantiate.transform.localScale = new Vector3(1, 1, 1); 
         else if (movement.x < 0)
-            playerPrefabInstantiate.transform.localScale = new Vector3(-1, 1, 1); // 朝左（反转 X）
+            playerPrefabInstantiate.transform.localScale = new Vector3(-1, 1, 1);
     }
 
 

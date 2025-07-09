@@ -30,8 +30,8 @@ public class MapUI : MonoBehaviour, IPointerDownHandler
         this.mapData = mapData;
 
         if (mapData.unlock != 0) //map unlock
-        {   //缺少map icon，等有了后再取消comentar
-            //_mapIcon.sprite = Resources.Load<Sprite>(mapData.mapIcon);
+        {
+            _mapIcon.sprite = Resources.Load<Sprite>(mapData.mapIcon);
             _mapName.text = mapData.mapName;
             _mapDescription.text = mapData.mapDescription;
         }
@@ -88,7 +88,7 @@ public class MapUI : MonoBehaviour, IPointerDownHandler
         {
             MapButtom.instance.SelectAnotherMap(mapData);
         }
-
+        AudioManager.instance.PlaySound(SoundType.ButtonClick);
         RenewUi(mapData);
 
     }
